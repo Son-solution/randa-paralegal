@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
+import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import WhatsAppCta from "@/components/ui/WhatsAppCta";
 import { site } from "@/config/site";
 import { baseOpenGraph } from "@/lib/seo";
@@ -26,7 +27,8 @@ export default function AboutPage() {
   return (
     <SiteShell page="about">
       <main>
-        <section aria-labelledby="page-title" style={{ padding: "clamp(36px, 5vw, 56px) 0 clamp(72px, 9vw, 120px)" }}>
+        <section className="lux-host" aria-labelledby="page-title" style={{ padding: "clamp(36px, 5vw, 56px) 0 clamp(72px, 9vw, 120px)" }}>
+          <LuxuryOrnaments />
           <div className="wrap">
             <nav aria-label="Brotkrümelnavigation" style={{ marginBottom: "clamp(36px, 5vw, 64px)" }}>
               <ol className="crumb">
@@ -49,8 +51,7 @@ export default function AboutPage() {
                     <span className="ln" style={{ "--d": ".35s", display: "block", fontStyle: "italic", color: "#0E1A28" } as CSSProperties}>Kale</span>
                   </span>
                 </h1>
-                <p className="in serif" style={{ "--d": ".6s", margin: "0", fontSize: "clamp(24px, 2.4vw, 32px)", lineHeight: "1.3", color: "#163A5F", fontWeight: "500", maxWidth: "22em" } as CSSProperties}>Administrative Unterstützung, Jugendcoaching und Sprachmittlung auf Arabisch und Aramäisch – im Raum Zürich.</p>
-                <p className="in" style={{ "--d": ".75s", margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", maxWidth: "36em", textWrap: "pretty" } as CSSProperties}>Mit Randa Paralegal Services begleite ich Privatpersonen, Familien und Jugendliche, die sich im Schweizer Alltag zurechtfinden, beruflich Fuss fassen oder sich in wichtigen Gesprächen verständigen möchten. Mein Anspruch: verständlich, nahbar und strukturiert.</p>
+                <p className="in serif" style={{ "--d": ".6s", margin: "0", fontSize: "clamp(24px, 2.4vw, 32px)", lineHeight: "1.3", color: "#163A5F", fontWeight: "500", maxWidth: "22em" } as CSSProperties}>Ihre Bridge-Builderin zwischen Sprachen, Behörden und Ihrer beruflichen Zukunft.</p>
               </div>
               <div className="in" style={{ "--d": ".4s", position: "relative" } as CSSProperties}>
                 <div role="img" aria-label="Platzhalter für ein Porträt von Randa Kale" style={{ aspectRatio: "4 / 5", background: "#163A5F", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
@@ -63,6 +64,23 @@ export default function AboutPage() {
                 </div>
                 <div className="pframe" aria-hidden="true" style={{ position: "absolute", top: "-18px", right: "-18px", width: "44%", height: "40%", borderTop: "1px solid #D4A017", borderRight: "1px solid #D4A017", pointerEvents: "none" }}></div>
               </div>
+            </div>
+          </div>
+        </section>
+        <section aria-labelledby="willkommen-title" style={{ padding: "0 0 clamp(80px, 10vw, 140px)" }}>
+          <div className="wrap split">
+            <div className="rv">
+              <div className="eyebrow" style={{ color: "#8A6508", display: "flex", alignItems: "center", gap: "14px" }}><span aria-hidden="true" style={{ display: "inline-block", width: "40px", height: "1px", background: "#D4A017" }}></span>Willkommen</div>
+              <h2 id="willkommen-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>Schön, dass Sie hier sind</h2>
+              <div style={{ position: "relative", overflow: "hidden", aspectRatio: "3 / 2", marginTop: "clamp(28px, 4vw, 40px)" }}>
+                <Image src="/images/behoerden.jpg" alt="Beraterin erklärt einer Klientin ein behördliches Schreiben (Symbolbild)" fill sizes="(max-width: 980px) 100vw, 42vw" style={{ objectFit: "cover" }} />
+                <span style={{ position: "absolute", left: "12px", bottom: "10px", fontSize: "10px", letterSpacing: ".14em", textTransform: "uppercase", color: "#FFFFFF", background: "rgba(14,26,40,.55)", padding: "2px 7px" }}>Symbolbild</span>
+              </div>
+            </div>
+            <div className="rv" style={{ display: "flex", flexDirection: "column", gap: "18px", fontSize: "17px", fontWeight: "300", color: "#2B3644", textWrap: "pretty" } as CSSProperties}>
+              <p style={{ margin: "0" }}>Als qualifizierte Paralegal mit fundierter Erfahrung im Schweizer Rechtssystem und in der professionellen Jugend- und Integrationsförderung stehe ich Privatpersonen und Jugendlichen bei administrativen, schulischen und beruflichen Herausforderungen zur Seite.</p>
+              <p style={{ margin: "0" }}>Viele Menschen fühlen sich von Formularen, behördlichen Schreiben, Fristen oder der Berufswahl überfordert. Genau hier setze ich an: Ich bringe Ordnung, Klarheit und Struktur in Ihre Unterlagen und Verfahren.</p>
+              <p style={{ margin: "0" }}>Mit fachlicher Kompetenz, Diskretion und kulturellem Feingefühl unterstütze ich Sie dabei, Hürden im Alltag und auf dem Arbeitsmarkt zu überwinden – damit Sie sich in der Schweiz sicher und gestärkt bewegen können.</p>
             </div>
           </div>
         </section>
@@ -95,25 +113,40 @@ export default function AboutPage() {
           <div className="wrap split">
             <div className="rv">
               <div className="eyebrow" style={{ color: "#8A6508", display: "flex", alignItems: "center", gap: "14px" }}><span aria-hidden="true" style={{ display: "inline-block", width: "40px", height: "1px", background: "#D4A017" }}></span>Werdegang</div>
-              <h2 id="bio-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>Biografie &amp; Qualifikationen</h2>
-              <p style={{ margin: "20px 0 0", fontSize: "16px", fontWeight: "300", color: "#2B3644", maxWidth: "26em" }}>Dieser Bereich wird mit den Angaben von Randa Kale ergänzt. Es werden ausschliesslich bestätigte Informationen veröffentlicht.</p>
+              <h2 id="bio-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>💼 Berufliche Erfahrung</h2>
             </div>
             <div className="rv" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <div style={{ border: "1px dashed #B9A06A", background: "rgba(255,255,255,.65)", padding: "26px 28px" }}>
-                <div className="eyebrow" style={{ fontSize: "10.5px", color: "#5A4A20" }}>Platzhalter</div>
-                <h3 className="serif" style={{ margin: "6px 0 6px", fontSize: "26px", fontWeight: "600", color: "#163A5F" }}>Kurzbiografie</h3>
-                <p style={{ margin: "0", fontSize: "14.5px", color: "#4A5563" }}>[Persönlicher Werdegang, Bezug zu Zürich und Motivation für Randa Paralegal Services – Text folgt.]</p>
-              </div>
-              <div style={{ border: "1px dashed #B9A06A", background: "rgba(255,255,255,.65)", padding: "26px 28px" }}>
-                <div className="eyebrow" style={{ fontSize: "10.5px", color: "#5A4A20" }}>Platzhalter</div>
-                <h3 className="serif" style={{ margin: "6px 0 6px", fontSize: "26px", fontWeight: "600", color: "#163A5F" }}>Ausbildung &amp; Qualifikationen</h3>
-                <p style={{ margin: "0", fontSize: "14.5px", color: "#4A5563" }}>[Ausbildungen, Abschlüsse, Weiterbildungen und Zertifikate – nur mit Nachweis und Freigabe.]</p>
-              </div>
-              <div style={{ border: "1px dashed #B9A06A", background: "rgba(255,255,255,.65)", padding: "26px 28px" }}>
-                <div className="eyebrow" style={{ fontSize: "10.5px", color: "#5A4A20" }}>Platzhalter</div>
-                <h3 className="serif" style={{ margin: "6px 0 6px", fontSize: "26px", fontWeight: "600", color: "#163A5F" }}>Berufserfahrung</h3>
-                <p style={{ margin: "0", fontSize: "14.5px", color: "#4A5563" }}>[Relevante berufliche Stationen in Administration, Coaching und Sprachmittlung – Angaben folgen.]</p>
-              </div>
+              <h3 className="serif" style={{ margin: "0", fontSize: "28px", fontWeight: "600", color: "#163A5F" }}>Jobcoach (Academia Education AG / Bereich Integration)</h3>
+              <p style={{ margin: "0", fontSize: "16px", color: "#2B3644" }}>In meiner Tätigkeit als Jobcoach in der Ganztagesstruktur Alpha (Bildungsangebot Auftakt) habe ich Jugendliche und junge Erwachsene intensiv auf ihrem Weg begleitet:</p>
+              <ul style={{ margin: "0", paddingLeft: "20px", fontSize: "15.5px", color: "#2B3644", display: "flex", flexDirection: "column", gap: "10px" }}>
+                <li><strong>Berufswahl &amp; Bewerbungsprozess:</strong> Fundierte Beratung, Erkennen von Interessen und Kompetenzen sowie zielgerichtete Unterstützung bei Bewerbungen.</li>
+                <li><strong>Bildungssystem &amp; Arbeitsmarkt:</strong> Verständliche Vermittlung des Schweizer Berufsbildungssystems, Erklärung von Arbeitsmarktanforderungen und Empfehlung von BIZ-Potenzialabklärungen oder INVOL.</li>
+                <li><strong>Vermittlung von Anschlusslösungen:</strong> Erfolgreiche Suche nach Lehrstellen und praktischen Ausbildungen (PRA) sowie Zusammenarbeit mit Sozialdiensten.</li>
+                <li><strong>Individuelle Förderung:</strong> Gezielte Unterstützung von Jugendlichen mit Lernschwierigkeiten oder individuellen Herausforderungen durch ein strukturiertes, motivierendes Konzept.</li>
+              </ul>
+            </div>
+          </div>
+          <div className="wrap split" style={{ marginTop: "clamp(64px, 8vw, 110px)" }}>
+            <div className="rv">
+              <div className="eyebrow" style={{ color: "#8A6508", display: "flex", alignItems: "center", gap: "14px" }}><span aria-hidden="true" style={{ display: "inline-block", width: "40px", height: "1px", background: "#D4A017" }}></span>Engagement</div>
+              <h2 id="engagement-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>🤝 Ehrenamtliches Engagement &amp; Herzensangelegenheit</h2>
+            </div>
+            <div className="rv" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <p style={{ margin: "0", fontSize: "16px", color: "#2B3644" }}>Ein wesentlicher Teil meiner menschlichen und praktischen Expertise beruht auf langjähriger, ehrenamtlicher Unterstützung für Bekannte, Verwandte und Familien in herausfordernden Lebenslagen:</p>
+              <ul style={{ margin: "0", padding: "0", listStyle: "none", fontSize: "15.5px", color: "#2B3644", display: "flex", flexDirection: "column", gap: "10px" }}>
+                <li>🏛️ <strong>Behörden, Migration &amp; Schweizer Recht:</strong> Prüfung von Voraussetzungen für Aufenthaltsbewilligungen, Abklärung von Behördenentscheiden sowie Verfassen von offiziellen Schreiben und Rekursen.</li>
+                <li>📄 <strong>Reisedokumente &amp; Visa:</strong> Erläuterung und Verfassen von Anträgen auf Rückreisevisa für Personen mit Status F sowie Briefe an das SEM (Staatssekretariat für Migration) zur Verlängerung von Reisedokumenten.</li>
+                <li>🗣️ <strong>Dolmetschen &amp; Sprachmittlung:</strong> Sprachmittlung auf Arabisch und Aramäisch bei Arztbesuchen, Spitälern, auf Behörden und in Schulen.</li>
+                <li>📄 <strong>Administrative Alltagshilfe:</strong> Ausfüllen von Formularen, Vereinbaren von Terminen, direkter Kontakt mit Behörden und Aufsetzen von Kündigungen (z. B. für Wohnungen).</li>
+                <li>⚖️ <strong>Familiäre Angelegenheiten:</strong> Zusammenstellung und Strukturierung von Unterlagen für Anwälte oder Mediatoren (z. B. bei Scheidung, Trennung, Unterhaltsberechnungen oder Sorgerechtsdokumenten).</li>
+                <li>🧭 <strong>Coaching &amp; Integration im privaten Umfeld:</strong> Empathische Begleitung und Motivation von Menschen bei der Stellensuche, Aus-/Weiterbildung und beim Überwinden des Gefühls von Fremdheit in der Schweiz.</li>
+              </ul>
+            </div>
+          </div>
+          <div className="wrap" style={{ marginTop: "clamp(64px, 8vw, 110px)" }}>
+            <div className="rv" style={{ borderLeft: "2px solid #D4A017", padding: "8px 0 8px clamp(20px, 3vw, 36px)", maxWidth: "820px" }}>
+              <h3 className="serif" style={{ margin: "0", fontSize: "30px", fontWeight: "600", color: "#163A5F" }}>Mein Versprechen an Sie:</h3>
+              <p className="serif" style={{ margin: "14px 0 0", fontSize: "clamp(20px, 2vw, 24px)", lineHeight: "1.4", fontStyle: "italic", color: "#163A5F" }}>Ob im professionellen Coaching oder bei Ihren administrativen Anliegen – ich begegne Ihnen mit voller Diskretion, rechtlicher Sorgfalt und menschlicher Empathie. Lassen Sie uns Ihre Zukunft gemeinsam anpacken.</p>
             </div>
           </div>
         </section>
@@ -202,7 +235,8 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-        <section id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+        <section className="lux-host" id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+          <LuxuryOrnaments />
           <div aria-hidden="true" style={{ position: "absolute", left: "50%", top: "0", width: "1px", height: "72px", background: "linear-gradient(#D4A017, rgba(212,160,23,0))" }}></div>
           <div className="wrap rv" style={{ maxWidth: "920px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
             <div className="eyebrow" style={{ color: "#8A6508" }}>Anfrage &amp; Termin</div>
@@ -212,7 +246,7 @@ export default function AboutPage() {
               <Link className="btn btn-navy" href="/anfrage" aria-describedby="cta-proto">Anfrage starten <span className="arr" aria-hidden="true">→</span></Link>
               <WhatsAppCta className="btn btn-line" describedBy="cta-proto" />
             </div>
-            {site.demoMode ? (
+            {site.showDemoNotices ? (
               <p id="cta-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung; WhatsApp wird später verbunden.</p>
             ) : null}
           </div>

@@ -3,6 +3,7 @@ import type { PageKey } from "@/config/navigation";
 import Footer from "./Footer";
 import Header from "./Header";
 import PrototypeBar from "./PrototypeBar";
+import ScrollReveal from "./ScrollReveal";
 import WhatsAppButton from "./WhatsAppButton";
 
 const pageClass: Record<PageKey, string> = {
@@ -50,6 +51,7 @@ export default function SiteShell({ page, children, showWhatsApp = true }: Props
         {children}
         <Footer />
         {showWhatsApp ? <WhatsAppButton /> : null}
+        <ScrollReveal />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
+import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import { routes } from "@/config/navigation";
 import { baseOpenGraph } from "@/lib/seo";
 
@@ -35,7 +36,8 @@ export default function LegalPage() {
   return (
     <SiteShell page="legal">
       <main>
-        <section aria-labelledby="page-title" style={{ padding: "clamp(36px, 5vw, 56px) 0 clamp(80px, 10vw, 130px)" }}>
+        <section className="lux-host" aria-labelledby="page-title" style={{ padding: "clamp(36px, 5vw, 56px) 0 clamp(80px, 10vw, 130px)" }}>
+          <LuxuryOrnaments />
           <div className="wrap" style={{ maxWidth: "980px" }}>
             <nav aria-label="Brotkrümelnavigation" style={{ marginBottom: "clamp(36px, 5vw, 64px)" }}>
               <ol className="crumb">

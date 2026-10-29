@@ -11,6 +11,9 @@ export const routes = {
   intake: "/anfrage",
   contact: "/kontakt",
   legal: "/rechtliche-hinweise",
+  impressum: "/impressum",
+  datenschutz: "/datenschutz",
+  cookies: "/cookie-richtlinie",
 } as const;
 
 export const services = [

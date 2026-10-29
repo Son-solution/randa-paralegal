@@ -98,6 +98,7 @@ export default function Footer() {
           </span>
           <LegalItem href={site.legal.impressum} label="Impressum" />
           <LegalItem href={site.legal.datenschutz} label="Datenschutzerklärung" />
+          <LegalItem href={site.legal.cookies} label="Cookie-Richtlinie" />
           <LegalItem href={site.legal.agb} label="AGB & rechtliche Hinweise" />
         </nav>
       </div>

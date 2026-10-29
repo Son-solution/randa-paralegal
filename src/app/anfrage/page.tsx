@@ -6,7 +6,7 @@ import { baseOpenGraph } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Anfrage & Termin",
   description:
-    "Anfrage für administrative Unterstützung, Jugendcoaching oder Dolmetschen in Zürich – Schritt für Schritt, auf Wunsch mit Termin für ein Erstgespräch. Demo-Prototyp: Es werden keine Daten übermittelt.",
+    "Anfrage für administrative Unterstützung, Jugendcoaching oder Dolmetschen in Zürich – Schritt für Schritt, auf Wunsch mit Termin für ein Erstgespräch.",
   alternates: { canonical: "/anfrage" },
   openGraph: { ...baseOpenGraph, url: "/anfrage", title: "Anfrage & Termin" },
 };

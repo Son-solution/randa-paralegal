@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
+import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
+import ServiceIllustration from "@/components/ui/ServiceIllustration";
 import WhatsAppCta from "@/components/ui/WhatsAppCta";
 import { site } from "@/config/site";
 import { baseOpenGraph } from "@/lib/seo";
@@ -26,7 +28,8 @@ export default function InterpretingPage() {
   return (
     <SiteShell page="interp">
       <main>
-        <section aria-labelledby="page-title" style={{ background: "#163A5F", color: "#FFFFFF", padding: "clamp(28px, 4vw, 44px) 0 clamp(80px, 10vw, 130px)", position: "relative", overflow: "hidden" }}>
+        <section className="lux-host" aria-labelledby="page-title" style={{ background: "#163A5F", color: "#FFFFFF", padding: "clamp(28px, 4vw, 44px) 0 clamp(80px, 10vw, 130px)", position: "relative", overflow: "hidden" }}>
+          <LuxuryOrnaments tone="light" />
           <div aria-hidden="true" style={{ position: "absolute", left: "0", right: "0", bottom: "0", height: "1px", background: "linear-gradient(90deg, rgba(212,160,23,0), rgba(212,160,23,.7) 50%, rgba(212,160,23,0))" }}></div>
           <div className="wrap">
             <nav aria-label="Brotkrümelnavigation" style={{ marginBottom: "clamp(32px, 5vw, 56px)" }}>
@@ -122,6 +125,10 @@ export default function InterpretingPage() {
             <div className="rv">
               <div className="eyebrow" style={{ color: "#8A6508", display: "flex", alignItems: "center", gap: "14px" }}><span aria-hidden="true" style={{ display: "inline-block", width: "40px", height: "1px", background: "#D4A017" }}></span>Für wen</div>
               <h2 id="fuerwen-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>Für beide Seiten des Gesprächs.</h2>
+              <div style={{ position: "relative", overflow: "hidden", aspectRatio: "3 / 2", marginTop: "clamp(28px, 4vw, 40px)" }}>
+                <Image src="/images/dolmetschen-arzt.jpg" alt="Sprachmittlerin begleitet eine Patientin beim Arztgespräch (Symbolbild)" fill sizes="(max-width: 980px) 100vw, 42vw" style={{ objectFit: "cover" }} />
+                <span style={{ position: "absolute", left: "12px", bottom: "10px", fontSize: "10px", letterSpacing: ".14em", textTransform: "uppercase", color: "#FFFFFF", background: "rgba(14,26,40,.55)", padding: "2px 7px" }}>Symbolbild</span>
+              </div>
             </div>
             <div className="rv" style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #D9CFBB" }}>
               <div style={{ padding: "28px 0", borderBottom: "1px solid #D9CFBB" }}>
@@ -236,9 +243,11 @@ export default function InterpretingPage() {
             </div>
           </div>
         </section>
-        <section id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+        <section className="lux-host" id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+          <LuxuryOrnaments />
           <div aria-hidden="true" style={{ position: "absolute", left: "50%", top: "0", width: "1px", height: "72px", background: "linear-gradient(#D4A017, rgba(212,160,23,0))" }}></div>
           <div className="wrap rv" style={{ maxWidth: "920px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
+            <ServiceIllustration kind="bridge" />
             <div className="eyebrow" style={{ color: "#8A6508" }}>Anfrage &amp; Termin</div>
             <h2 id="cta-title" className="serif" style={{ margin: "0", fontSize: "clamp(42px, 5.4vw, 72px)", lineHeight: "1.04", fontWeight: "500", color: "#163A5F" }}>Damit Sie <span style={{ fontStyle: "italic", color: "#8A6508" }}>verstanden werden.</span></h2>
             <p style={{ margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", maxWidth: "34em" }}>Nennen Sie Termin, Ort und Sprache in der Online-Anfrage – oder laden Sie das Dokument hoch, das übersetzt werden soll.</p>
@@ -246,7 +255,7 @@ export default function InterpretingPage() {
               <Link className="btn btn-navy" href="/anfrage" aria-describedby="cta-proto">Anfrage starten <span className="arr" aria-hidden="true">→</span></Link>
               <WhatsAppCta className="btn btn-line" describedBy="cta-proto" />
             </div>
-            {site.demoMode ? (
+            {site.showDemoNotices ? (
               <p id="cta-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung; WhatsApp wird später verbunden.</p>
             ) : null}
           </div>

@@ -38,16 +38,21 @@ export const site = {
     phone: null as string | null,
     email: null as string | null,
     whatsapp: null as string | null,
+    /** Postal address for the Impressum, e.g. ["Musterstrasse 1", "8000 Zürich"]. */
+    address: null as string[] | null,
   },
 
+  /** UID (Unternehmens-Identifikationsnummer), e.g. "CHE-123.456.789" – only if registered. */
+  uid: null as string | null,
+
   /**
-   * Legal pages. They are planned but not written yet; while `null`, the footer shows
-   * "Impressum (folgt)" etc. instead of a link. Set to a path such as "/impressum"
-   * once the (legally reviewed) page exists.
+   * Legal pages. While a value is `null`, the footer shows the label without a link.
+   * The texts are drafts and should be legally reviewed before the public launch.
    */
   legal: {
-    impressum: null as string | null,
-    datenschutz: null as string | null,
+    impressum: "/impressum" as string | null,
+    datenschutz: "/datenschutz" as string | null,
+    cookies: "/cookie-richtlinie" as string | null,
     // Excerpt from the client briefing ("Rechtliche Hinweise & AGB"); full AGB still to be supplied.
     agb: "/rechtliche-hinweise" as string | null,
   },
@@ -59,8 +64,15 @@ export const site = {
    */
   demoMode: true,
 
+  /**
+   * Shows the "Prototyp" notes under the call-to-action buttons. Turned off at the
+   * client’s request while the site is offline – the form still does NOT send anything
+   * (demoMode), so connect it before going live.
+   */
+  showDemoNotices: false,
+
   /** Shows the thin prototype notice at the top of every page. */
-  showPrototypeBar: true,
+  showPrototypeBar: false,
 
   /**
    * Allows search engines to index the website. Keep `false` while the site is a

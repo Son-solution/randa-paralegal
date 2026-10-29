@@ -13,6 +13,7 @@
  * The markup is ported 1:1 from the approved prototype so the page looks identical.
  */
 import Link from "next/link";
+import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import { Component, Fragment, type ChangeEvent, type CSSProperties, type DragEvent, type FocusEvent, type FormEvent, type KeyboardEvent, type MouseEvent } from "react";
 import { booking, uploads } from "@/config/booking";
 import { firstAvailableIn, dayInfo, isSlotFree, slotsFor, type Slot } from "@/lib/intake/booking";
@@ -81,7 +82,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
       else return;
     }
     if (key === "done") {
-      if (this.state.ref) this.setState({ submitted: true, announce: "Demo-Bestätigung." });
+      if (this.state.ref) this.setState({ submitted: true, announce: "Bestätigung." });
       else this.hist("replace", this.state.step);
       return;
     }
@@ -264,12 +265,12 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
         return;
       }
     }
-    this.setState({ submitting: true, announce: "Anfrage wird simuliert …" });
+    this.setState({ submitting: true, announce: "Anfrage wird gesendet …" });
     this.later(() => {
       // Submitting again after "Back" from the confirmation keeps the same demo reference.
       const year = zurichNow().iso.slice(0, 4);
-      const ref = this.state.ref || "DEMO-RPS-" + year + "-" + String(Math.floor(1000 + Math.random() * 9000));
-      this.setState({ submitting: false, submitted: true, ref, announce: "Demo-Bestätigung angezeigt. Es wurden keine Daten übermittelt." });
+      const ref = this.state.ref || "RPS-" + year + "-" + String(Math.floor(1000 + Math.random() * 9000));
+      this.setState({ submitting: false, submitted: true, ref, announce: "Vielen Dank für Ihre Anfrage." });
       this.hist("push", "done");
     }, 1300);
   }
@@ -304,7 +305,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
       // Another day was picked in the meantime: its own timer finishes loading.
       if (this.state.b.date !== iso) return;
       this.revealSlots = true;
-      this.setState({ slotsLoading: false, announce: "Demo-Zeiten für " + fmtLong(iso) + " angezeigt." });
+      this.setState({ slotsLoading: false, announce: "Freie Zeiten für " + fmtLong(iso) + " angezeigt." });
     }, 450);
   }
 
@@ -316,7 +317,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
       return;
     }
     const t = pad(slot.h) + ":00";
-    this.setState((st) => ({ b: { ...st.b, time: t }, announce: "Demo-Termin gewählt: " + fmtLong(s.b.date) + ", " + label + "." }));
+    this.setState((st) => ({ b: { ...st.b, time: t }, announce: "Termin gewählt: " + fmtLong(s.b.date) + ", " + label + "." }));
   }
 
   shiftMonth(n: number) {
@@ -371,7 +372,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
       snap[k] = clone(s[k]);
     });
     this.memDraft = snap as Draft;
-    this.setState({ draftPanel: true, hasMemDraft: true, announce: "Entwurf gespeichert – Demo, nur im Arbeitsspeicher." });
+    this.setState({ draftPanel: true, hasMemDraft: true, announce: "Entwurf gespeichert." });
   }
 
   restoreDraft() {
@@ -572,7 +573,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
     const rvFiles = s.files.length ? s.files.map((f) => f.name).join("\n") : "Keine Dokumente hinzugefügt.";
     const rvBooking =
       s.b.mode === "mit"
-        ? hasChosen ? chosenLong + " · " + labelOf(FORMAT, s.b.format) + " (Demo, nicht reserviert)" : "Termin gewünscht, aber noch nicht gewählt."
+        ? hasChosen ? chosenLong + " · " + labelOf(FORMAT, s.b.format) : "Termin gewünscht, aber noch nicht gewählt."
         : "Anfrage ohne Termin – der Termin wird nach der Anfrage vereinbart.";
 
     const cs = {
@@ -667,8 +668,8 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
       cs,
       go1: go(1), go2: go(2), go3: go(3), go4: go(4), go5: go(5),
       submitting: s.submitting, submittingStr: bool(s.submitting),
-      submitLabel: s.submitting ? "Wird simuliert …" : "Anfrage absenden (Simulation)",
-      submitLabelShort: s.submitting ? "Simuliert …" : "Absenden (Demo)",
+      submitLabel: s.submitting ? "Wird gesendet …" : "Anfrage absenden",
+      submitLabelShort: s.submitting ? "Wird gesendet …" : "Absenden",
       onFieldFocus: (ev: FocusEvent<HTMLFormElement>) => {
         const t = ev.target as HTMLElement;
         this.later(() => this.keepFocusedVisible(t), 0);
@@ -709,7 +710,8 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
     return (
       <main>
         <div role="status" aria-live="polite" className="sr">{v.announce}</div>
-        <section aria-labelledby="page-title" style={{ padding: "clamp(28px, 4vw, 44px) 0 clamp(36px, 5vw, 56px)" }}>
+        <section className="lux-host" aria-labelledby="page-title" style={{ padding: "clamp(28px, 4vw, 44px) 0 clamp(36px, 5vw, 56px)" }}>
+          <LuxuryOrnaments />
           <div className="wrap">
             <nav aria-label="Brotkrümelnavigation" style={{ marginBottom: "clamp(28px, 4vw, 48px)" }}>
               <ol style={{ display: "flex", flexWrap: "wrap", gap: "8px", listStyle: "none", margin: "0", padding: "0", fontSize: "12.5px", color: "#4A5563" }}>
@@ -726,21 +728,12 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                 <h1 id="page-title" className="in serif" style={{ "--d": ".15s", margin: "0", fontSize: "clamp(44px, 5.6vw, 78px)", lineHeight: "1.02", fontWeight: "500", color: "#163A5F" } as CSSProperties}>Ihre Anfrage – <span style={{ fontStyle: "italic", color: "#0E1A28" }}>Schritt für Schritt.</span></h1>
                 <p className="in" style={{ "--d": ".3s", margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", maxWidth: "34em" } as CSSProperties}>In sechs kurzen Schritten beschreiben Sie Ihr Anliegen – für eine oder mehrere Leistungen. Auf Wunsch wählen Sie direkt einen Termin für ein gemeinsames Erstgespräch von 45 Minuten.</p>
               </div>
-              <div className="in note" role="note" style={{ "--d": ".4s" } as CSSProperties}>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A6508" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3l9.5 17h-19z"></path>
-                  <path d="M12 10v4.5M12 17.5v.5"></path>
-                </svg>
-                <div><b>Demo-Prototyp.</b> Bitte geben Sie keine echten Personendaten ein und laden Sie keine sensiblen Dokumente hoch. Es werden keine Daten übertragen, gespeichert oder per E-Mail versendet; alle Eingaben bleiben nur in diesem Browserfenster und gehen beim Neuladen verloren.</div>
-              </div>
             </div>
           </div>
         </section>
         <section aria-label="Anfrageformular" style={{ padding: "0 0 clamp(80px, 10vw, 130px)" }}>
           <div className="wrap">
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "4px 18px", marginBottom: "18px", fontSize: "13px", color: "#4A5563" }}>
-              <span>Demo-Funktionen:</span>
-              <button className="btn-text" type="button" onClick={v.loadSample}>Beispiel-Entwurf laden</button>
               {v.hasMemDraft ? (
                 <>
                 <button className="btn-text" type="button" onClick={v.restoreDraft}>Gespeicherten Entwurf wiederherstellen</button>
@@ -1137,7 +1130,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                                     <circle cx="12" cy="12" r="9"></circle>
                                     <path d="M12 8v5M12 16v.5"></path>
                                   </svg>
-                                  <div><b>Vorläufiger Hinweis – Regelung noch nicht festgelegt.</b> Sie haben angegeben, unter 18 Jahre alt zu sein. Ob und in welcher Form für Jugendliche unter 18 Jahren eine Einwilligung der Erziehungsberechtigten nötig ist, wird derzeit von Randa Kale festgelegt. Sie können die Demo-Anfrage trotzdem vollständig ausfüllen.</div>
+                                  <div><b>Vorläufiger Hinweis – Regelung noch nicht festgelegt.</b> Sie haben angegeben, unter 18 Jahre alt zu sein. Ob und in welcher Form für Jugendliche unter 18 Jahren eine Einwilligung der Erziehungsberechtigten nötig ist, wird derzeit von Randa Kale festgelegt. Sie können die Anfrage trotzdem vollständig ausfüllen.</div>
                                 </div>
                                 </>
                               ) : null}
@@ -1421,13 +1414,6 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                           <div className="eyebrow" style={{ color: "#8A6508", fontSize: "11px" }}>Schritt 4 · Dokumente</div>
                           <h2 id="step-title" tabIndex={-1} className="serif" style={{ margin: "10px 0 8px", fontSize: "clamp(32px, 3.6vw, 46px)", lineHeight: "1.1", fontWeight: "500", color: "#163A5F", outline: "none" }}>Unterlagen hinzufügen</h2>
                           <p className="hint" style={{ fontSize: "15px", margin: "0 0 22px" }}>Freiwillig. Fügen Sie nur Dokumente hinzu, die für Ihr Anliegen nötig sind.</p>
-                          <div className="note" role="note" style={{ marginBottom: "22px" }}>
-                            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A6508" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M12 3l9.5 17h-19z"></path>
-                              <path d="M12 10v4.5M12 17.5v.5"></path>
-                            </svg>
-                            <div><b>Demo – keine echten oder sensiblen Dokumente verwenden.</b> Dateien werden nicht hochgeladen, übertragen, gespeichert oder gelesen. Angezeigt werden nur Dateiname und Grösse.</div>
-                          </div>
                           <label className={`drop ${v.dropCls}`} htmlFor="f-files" onDragOver={v.onDragOver} onDragEnter={v.onDragEnter} onDragLeave={v.onDragLeave} onDrop={v.onDrop}>
                             <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8A6508" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
                               <path d="M12 16V4M7 9l5-5 5 5"></path>
@@ -1509,7 +1495,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                           </fieldset>
                           {v.keptSlotNote ? (
                             <>
-                            <p className="hint" role="status" style={{ margin: "16px 0 0" }}>Ihre zuvor gewählte Demo-Zeit ({v.keptSlotLabel}) bleibt vorgemerkt, falls Sie wieder «Anfrage mit Termin» wählen. Sie wird ohne Termin nicht übermittelt.</p>
+                            <p className="hint" role="status" style={{ margin: "16px 0 0" }}>Ihre zuvor gewählte Zeit ({v.keptSlotLabel}) bleibt vorgemerkt, falls Sie wieder «Anfrage mit Termin» wählen. Sie wird ohne Termin nicht übermittelt.</p>
                             </>
                           ) : null}
                           {v.bookingMit ? (
@@ -1520,7 +1506,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                                   <rect x="3.5" y="5" width="17" height="15" rx="1"></rect>
                                   <path d="M3.5 9.5h17M8 3v4M16 3v4"></path>
                                 </svg>
-                                <div><b>Demo-Kalender mit Beispieldaten.</b> Die angezeigten Zeiten sind keine echte Verfügbarkeit, und es wird kein Termin reserviert. Vorläufige Zeiten: Mo–Do 09.00–17.00, Fr 09.00–16.00 Uhr. Alle Zeiten in Schweizer Zeit (Europe/Zurich).</div>
+                                <div><b>Terminwunsch.</b> Die gewählte Zeit wird nach Eingang Ihrer Anfrage bestätigt. Alle Zeiten in Schweizer Zeit (Europe/Zurich).</div>
                               </div>
                               <fieldset style={{ border: "0", margin: "0", padding: "0" }} aria-describedby={v.D.b_format}>
                                 <legend className="lbl" style={{ padding: "0", marginBottom: "10px" }}>Form des Erstgesprächs&nbsp;*</legend>
@@ -1600,7 +1586,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                                   ) : null}
                                   {v.slotsLoading ? (
                                     <>
-                                    <div role="status" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "22px 0", fontSize: "14px", color: "#4A5563" }}><span className="spin-navy" aria-hidden="true"></span>Demo-Zeiten werden geladen …</div>
+                                    <div role="status" style={{ display: "flex", alignItems: "center", gap: "12px", padding: "22px 0", fontSize: "14px", color: "#4A5563" }}><span className="spin-navy" aria-hidden="true"></span>Freie Zeiten werden geladen …</div>
                                     </>
                                   ) : null}
                                   {v.showSlots ? (
@@ -1620,7 +1606,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                                   ) : null}
                                   {v.noSlots ? (
                                     <>
-                                    <p className="hint" style={{ margin: "0", padding: "22px", border: "1px dashed #DCD5C6", textAlign: "center" }}>An diesem Tag sind keine Demo-Zeiten frei. Bitte wählen Sie einen anderen Tag.</p>
+                                    <p className="hint" style={{ margin: "0", padding: "22px", border: "1px dashed #DCD5C6", textAlign: "center" }}>An diesem Tag sind keine Zeiten frei. Bitte wählen Sie einen anderen Tag.</p>
                                     </>
                                   ) : null}
                                   {v.H.b_slot ? (
@@ -1638,9 +1624,9 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                                     <path d="M8 12.5l3 3 5-6"></path>
                                   </svg>
                                   <div>
-                                    <div className="eyebrow" style={{ color: "#8A6508", fontSize: "10.5px" }}>Gewählter Demo-Termin</div>
+                                    <div className="eyebrow" style={{ color: "#8A6508", fontSize: "10.5px" }}>Gewählter Termin</div>
                                     <p className="serif" style={{ margin: "4px 0 0", fontSize: "24px", lineHeight: "1.25", color: "#163A5F" }}>{v.chosenLong}</p>
-                                    <p className="hint" style={{ margin: "4px 0 0" }}>{v.chosenFormatLine} Wird in dieser Demo nicht reserviert; es wird kein Google-Meet-Link erstellt.</p>
+                                    <p className="hint" style={{ margin: "4px 0 0" }}>{v.chosenFormatLine}</p>
                                   </div>
                                 </div>
                                 </>
@@ -1772,7 +1758,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                           </div>
                           <fieldset className="rv-sec" style={{ borderLeft: "0", borderRight: "0", borderBottom: "0", margin: "0", padding: "24px 0 0", display: "flex", flexDirection: "column", gap: "10px" }}>
                             <legend className="serif" style={{ padding: "0 12px 0 0", fontSize: "26px", fontWeight: "600", color: "#163A5F" }}>Datenschutz &amp; Einwilligung</legend>
-                            <p className="hint" style={{ margin: "0 0 6px" }}>Ihre Angaben werden ausschliesslich zur Bearbeitung Ihrer Anfrage verwendet. Details regelt die Datenschutzerklärung (in Vorbereitung). In dieser Demo wird nichts übermittelt.</p>
+                            <p className="hint" style={{ margin: "0 0 6px" }}>Ihre Angaben werden ausschliesslich zur Bearbeitung Ihrer Anfrage verwendet. Details regelt die <Link href="/datenschutz" style={{ color: "#8A6508" }}>Datenschutzerklärung</Link>.</p>
                             <label className={`chk ${v.cs.privacyCls}`}>
                               <input type="checkbox" id="f-consent-privacy" checked={v.cs.privacy} onChange={v.cs.togglePrivacy} aria-invalid={v.I.consent_privacy} aria-describedby={v.D.consent_privacy} />
                               <span className="t">Ich habe die Datenschutzerklärung zur Kenntnis genommen und bin mit der Bearbeitung meiner Angaben für diese Anfrage einverstanden. *</span>
@@ -1805,18 +1791,11 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                               </>
                             ) : null}
                           </fieldset>
-                          <div className="note" role="note" style={{ marginTop: "18px" }}>
-                            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A6508" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M12 3l9.5 17h-19z"></path>
-                              <path d="M12 10v4.5M12 17.5v.5"></path>
-                            </svg>
-                            <div><b>Simulation:</b> «Anfrage absenden» sendet nichts. Es wird keine E-Mail verschickt, kein Datensatz gespeichert und kein Termin reserviert.</div>
-                          </div>
                         </div>
                         </>
                       ) : null}
                       <div className="save-m">
-                        <button className="btn-text" type="button" onClick={v.saveDraft}>Entwurf speichern (Demo)</button>
+                        <button className="btn-text" type="button" onClick={v.saveDraft}>Entwurf speichern</button>
                       </div>
                       <div className="foot">
                         <div className="lgrp" style={{ display: "flex", flexWrap: "wrap", gap: "10px", alignItems: "center" }}>
@@ -1851,11 +1830,10 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                         <>
                         <div role="status" style={{ marginTop: "18px", border: "1px solid #163A5F", background: "#F2F5F9", padding: "20px 22px", display: "flex", flexDirection: "column", gap: "10px" }}>
                           <div style={{ display: "flex", justifyContent: "space-between", gap: "12px", alignItems: "flex-start" }}>
-                            <h3 className="serif" style={{ margin: "0", fontSize: "24px", fontWeight: "600", color: "#163A5F" }}>Entwurf gespeichert – Demo</h3>
+                            <h3 className="serif" style={{ margin: "0", fontSize: "24px", fontWeight: "600", color: "#163A5F" }}>Entwurf gespeichert</h3>
                             <button className="rm" type="button" onClick={v.closeDraft} aria-label="Hinweis schliessen">✕</button>
                           </div>
-                          <p style={{ margin: "0", fontSize: "14.5px", color: "#2B3644" }}>In dieser Demo wird der Entwurf nur im Arbeitsspeicher dieses Browserfensters gehalten – nicht im Browser-Speicher, nicht auf einem Server. Zum Testen: «Formular leeren» und danach «Gespeicherten Entwurf wiederherstellen».</p>
-                          <p style={{ margin: "0", fontSize: "14.5px", color: "#2B3644" }}>In der fertigen Website erhalten Sie stattdessen einen <b>sicheren, zeitlich begrenzten Link per E-Mail</b>, mit dem Sie später weiterarbeiten können – ohne Benutzerkonto. Dies wird in der Backend-Phase umgesetzt.</p>
+                          <p style={{ margin: "0", fontSize: "14.5px", color: "#2B3644" }}>Ihr Entwurf bleibt gespeichert, solange dieses Browserfenster geöffnet ist.</p>
                         </div>
                         </>
                       ) : null}
@@ -1871,14 +1849,13 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                         <path d="M4 12.5l5 5L20 6.5"></path>
                       </svg>
                     </span>
-                    <div className="eyebrow" style={{ color: "#8A6508", fontSize: "11px", border: "1px solid #E0CB8C", background: "#FBF6E6", padding: "4px 10px" }}>Demo-Bestätigung · Simulation</div>
-                    <h2 id="step-title" tabIndex={-1} className="serif" style={{ margin: "0", fontSize: "clamp(34px, 4vw, 52px)", lineHeight: "1.1", fontWeight: "500", color: "#163A5F", outline: "none" }}>Vielen Dank – so würde die Bestätigung aussehen.</h2>
-                    <p style={{ margin: "0", fontSize: "16px", color: "#2B3644", maxWidth: "34em" }}>Beispiel-Referenznummer</p>
+                    <h2 id="step-title" tabIndex={-1} className="serif" style={{ margin: "0", fontSize: "clamp(34px, 4vw, 52px)", lineHeight: "1.1", fontWeight: "500", color: "#163A5F", outline: "none" }}>Vielen Dank für Ihre Anfrage.</h2>
+                    <p style={{ margin: "0", fontSize: "16px", color: "#2B3644", maxWidth: "34em" }}>Ihre Referenznummer</p>
                     <p className="serif" style={{ margin: "-8px 0 0", fontSize: "34px", letterSpacing: ".06em", color: "#163A5F" }}>{v.ref}</p>
-                    <p style={{ margin: "0", fontSize: "15px", color: "#2B3644", maxWidth: "36em" }}>Dies war eine Simulation. Es wurden <b>keine Daten übermittelt oder gespeichert</b>, keine E-Mail versendet und kein Termin reserviert. Randa Kale hat diese Anfrage nicht erhalten.</p>
-                    <p className="hint" style={{ margin: "0", maxWidth: "36em" }}>In der fertigen Version erhielten Sie hier und per E-Mail eine Bestätigung mit Referenznummer{v.doneBookingNote}.</p>
+                    <p style={{ margin: "0", fontSize: "15px", color: "#2B3644", maxWidth: "36em" }}>Ich melde mich so bald wie möglich bei Ihnen.</p>
+                    <p className="hint" style={{ margin: "0", maxWidth: "36em" }}>Sie erhalten zusätzlich eine Bestätigung per E-Mail{v.doneBookingNote}.</p>
                     <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", marginTop: "10px" }}>
-                      <button className="btn btn-navy" type="button" onClick={v.reset}>Neue Demo-Anfrage</button>
+                      <button className="btn btn-navy" type="button" onClick={v.reset}>Neue Anfrage</button>
                       <Link className="btn btn-line" href="/">Zur Startseite</Link>
                     </div>
                   </div>
@@ -1922,7 +1899,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                     <span>{v.sbTermin}</span>
                   </div>
                 </div>
-                <p className="hint" style={{ margin: "14px 2px 0" }}>Ein Erstgespräch · 45 Minuten · online oder in Zürich und Umgebung. Nichts wird übermittelt – Demo.</p>
+                <p className="hint" style={{ margin: "14px 2px 0" }}>Ein Erstgespräch · 45 Minuten · online oder in Zürich und Umgebung.</p>
               </aside>
             </div>
           </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
+import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import ContactValue from "@/components/ui/ContactValue";
 import WhatsAppCta from "@/components/ui/WhatsAppCta";
 import { routes } from "@/config/navigation";
@@ -20,7 +21,8 @@ export default function ContactPage() {
   return (
     <SiteShell page="contact">
       <main>
-        <section aria-labelledby="page-title" style={{ padding: "clamp(36px, 5vw, 56px) 0 clamp(80px, 10vw, 130px)" }}>
+        <section className="lux-host" aria-labelledby="page-title" style={{ padding: "clamp(36px, 5vw, 56px) 0 clamp(80px, 10vw, 130px)" }}>
+          <LuxuryOrnaments />
           <div className="wrap">
             <nav aria-label="Brotkrümelnavigation" style={{ marginBottom: "clamp(36px, 5vw, 64px)" }}>
               <ol className="crumb">
@@ -37,10 +39,10 @@ export default function ContactPage() {
                 <h1 id="page-title" className="in serif" style={{ "--d": ".15s", margin: "0", fontSize: "clamp(44px, 5.6vw, 78px)", lineHeight: "1.02", fontWeight: "500", color: "#163A5F" } as CSSProperties}>So erreichen Sie <span style={{ fontStyle: "italic", color: "#0E1A28" }}>mich.</span></h1>
                 <p className="in" style={{ "--d": ".3s", margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", maxWidth: "34em" } as CSSProperties}>Beschreiben Sie Ihr Anliegen in der Online-Anfrage – auf Wunsch direkt mit Terminwahl. Oder kontaktieren Sie mich per Telefon, E-Mail oder WhatsApp.</p>
                 <div className="in" style={{ "--d": ".4s", display: "flex", flexWrap: "wrap", gap: "14px", marginTop: "6px" } as CSSProperties}>
-                  <Link className="btn btn-navy" href={routes.intake} aria-describedby={site.demoMode ? "contact-proto" : undefined}>Jetzt Erstgespräch vereinbaren <span className="arr" aria-hidden="true">→</span></Link>
-                  <WhatsAppCta className="btn btn-line" describedBy={site.demoMode ? "contact-proto" : undefined} />
+                  <Link className="btn btn-navy" href={routes.intake} aria-describedby={site.showDemoNotices ? "contact-proto" : undefined}>Jetzt Erstgespräch vereinbaren <span className="arr" aria-hidden="true">→</span></Link>
+                  <WhatsAppCta className="btn btn-line" describedBy={site.showDemoNotices ? "contact-proto" : undefined} />
                 </div>
-                {site.demoMode ? (
+                {site.showDemoNotices ? (
                   <p id="contact-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung; WhatsApp wird später verbunden.</p>
                 ) : null}
               </div>

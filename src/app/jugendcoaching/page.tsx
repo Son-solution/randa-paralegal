@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
+import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
+import ServiceIllustration from "@/components/ui/ServiceIllustration";
 import WhatsAppCta from "@/components/ui/WhatsAppCta";
 import { site } from "@/config/site";
 import { baseOpenGraph } from "@/lib/seo";
@@ -26,7 +28,8 @@ export default function YouthCoachingPage() {
   return (
     <SiteShell page="youth">
       <main>
-        <section aria-labelledby="page-title" style={{ padding: "clamp(28px, 4vw, 44px) 0 clamp(80px, 10vw, 130px)" }}>
+        <section className="lux-host" aria-labelledby="page-title" style={{ padding: "clamp(28px, 4vw, 44px) 0 clamp(80px, 10vw, 130px)" }}>
+          <LuxuryOrnaments />
           <div className="wrap">
             <nav aria-label="Brotkrümelnavigation" style={{ marginBottom: "clamp(32px, 5vw, 56px)" }}>
               <ol className="crumb">
@@ -175,6 +178,10 @@ export default function YouthCoachingPage() {
               <div className="eyebrow" style={{ color: "#8A6508", display: "flex", alignItems: "center", gap: "14px" }}><span aria-hidden="true" style={{ display: "inline-block", width: "40px", height: "1px", background: "#D4A017" }}></span>Ablauf</div>
               <h2 id="ablauf-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>So läuft das Coaching ab.</h2>
               <p style={{ margin: "20px 0 0", fontSize: "16px", fontWeight: "300", color: "#2B3644", maxWidth: "26em" }}>Umfang und Anzahl der Termine richten sich nach Ihrer Situation und werden im Erstgespräch besprochen.</p>
+              <div style={{ position: "relative", overflow: "hidden", aspectRatio: "3 / 2", marginTop: "clamp(28px, 4vw, 40px)" }}>
+                <Image src="/images/bewerbung.jpg" alt="Beraterin unterstützt eine Jugendliche bei der Bewerbung am Laptop (Symbolbild)" fill sizes="(max-width: 980px) 100vw, 42vw" style={{ objectFit: "cover" }} />
+                <span style={{ position: "absolute", left: "12px", bottom: "10px", fontSize: "10px", letterSpacing: ".14em", textTransform: "uppercase", color: "#FFFFFF", background: "rgba(14,26,40,.55)", padding: "2px 7px" }}>Symbolbild</span>
+              </div>
             </div>
             <ol className="rv" style={{ margin: "0", padding: "0", listStyle: "none", display: "flex", flexDirection: "column" }}>
               <li style={{ display: "grid", gridTemplateColumns: "72px minmax(0, 1fr)", gap: "16px", padding: "26px 0", borderTop: "1px solid #E4DCCB" }}>
@@ -311,9 +318,11 @@ export default function YouthCoachingPage() {
             </div>
           </div>
         </section>
-        <section id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+        <section className="lux-host" id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+          <LuxuryOrnaments />
           <div aria-hidden="true" style={{ position: "absolute", left: "50%", top: "0", width: "1px", height: "72px", background: "linear-gradient(#D4A017, rgba(212,160,23,0))" }}></div>
           <div className="wrap rv" style={{ maxWidth: "920px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
+            <ServiceIllustration kind="path" />
             <div className="eyebrow" style={{ color: "#8A6508" }}>Anfrage &amp; Termin</div>
             <h2 id="cta-title" className="serif" style={{ margin: "0", fontSize: "clamp(42px, 5.4vw, 72px)", lineHeight: "1.04", fontWeight: "500", color: "#163A5F" }}>Der erste Schritt <span style={{ fontStyle: "italic", color: "#8A6508" }}>zählt.</span></h2>
             <p style={{ margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", maxWidth: "34em" }}>Erzählen Sie in der Online-Anfrage, wo Sie stehen und was Sie erreichen möchten. Im Erstgespräch planen wir die nächsten Schritte.</p>
@@ -321,7 +330,7 @@ export default function YouthCoachingPage() {
               <Link className="btn btn-navy" href="/anfrage" aria-describedby="cta-proto">Anfrage starten <span className="arr" aria-hidden="true">→</span></Link>
               <WhatsAppCta className="btn btn-line" describedBy="cta-proto" />
             </div>
-            {site.demoMode ? (
+            {site.showDemoNotices ? (
               <p id="cta-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung; WhatsApp wird später verbunden.</p>
             ) : null}
           </div>

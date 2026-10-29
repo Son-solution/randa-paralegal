@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
+import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
+import ServiceIllustration from "@/components/ui/ServiceIllustration";
 import WhatsAppCta from "@/components/ui/WhatsAppCta";
 import { site } from "@/config/site";
 import { baseOpenGraph } from "@/lib/seo";
@@ -26,7 +28,8 @@ export default function AdminPage() {
   return (
     <SiteShell page="admin">
       <main>
-        <section aria-labelledby="page-title" style={{ padding: "clamp(28px, 4vw, 44px) 0 clamp(72px, 9vw, 120px)" }}>
+        <section className="lux-host" aria-labelledby="page-title" style={{ padding: "clamp(28px, 4vw, 44px) 0 clamp(72px, 9vw, 120px)" }}>
+          <LuxuryOrnaments />
           <div className="wrap">
             <nav aria-label="Brotkrümelnavigation" style={{ marginBottom: "24px" }}>
               <ol className="crumb">
@@ -73,7 +76,7 @@ export default function AdminPage() {
               </div>
               <p style={{ margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", maxWidth: "34em" }}>Ob ein einzelner Brief oder ein ganzer Stapel Unterlagen: Gemeinsam schaffen wir Ordnung und Klarheit.</p>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(330px, 100%), 1fr))", gap: "1px", background: "#D9CFBB", border: "1px solid #D9CFBB" }}>
+            <div className="sit-grid">
               <div className="sit rv" style={{ background: "#F3EEE4", padding: "34px 32px", display: "flex", flexDirection: "column", gap: "10px" }}>
                 <span className="serif" style={{ fontSize: "34px", lineHeight: "1", color: "#D4A017" }}>01</span>
                 <h3 className="serif" style={{ margin: "0", fontSize: "26px", fontWeight: "600", color: "#163A5F" }}>Ein Brief ist unklar</h3>
@@ -99,11 +102,6 @@ export default function AdminPage() {
                 <h3 className="serif" style={{ margin: "0", fontSize: "26px", fontWeight: "600", color: "#163A5F" }}>Die Unterlagen stapeln sich</h3>
                 <p style={{ margin: "0", fontSize: "15px", color: "#2B3644" }}>Sie möchten persönliche Dokumente sortieren und eine Ablage aufbauen, in der Sie alles wiederfinden.</p>
               </div>
-              <div className="sit rv" style={{ background: "#F3EEE4", padding: "34px 32px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                <span className="serif" style={{ fontSize: "34px", lineHeight: "1", color: "#D4A017" }}>06</span>
-                <h3 className="serif" style={{ margin: "0", fontSize: "26px", fontWeight: "600", color: "#163A5F" }}>Neu in der Schweiz</h3>
-                <p style={{ margin: "0", fontSize: "15px", color: "#2B3644" }}>Sie möchten verstehen, wie administrative Abläufe bei Gemeinde, Ämtern und Versicherungen funktionieren.</p>
-              </div>
             </div>
           </div>
         </section>
@@ -113,6 +111,10 @@ export default function AdminPage() {
               <div className="eyebrow" style={{ color: "#8A6508", display: "flex", alignItems: "center", gap: "14px" }}><span aria-hidden="true" style={{ display: "inline-block", width: "40px", height: "1px", background: "#D4A017" }}></span>Leistungen</div>
               <h2 id="leist-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>Wobei ich Sie unterstütze.</h2>
               <p style={{ margin: "20px 0 0", fontSize: "16px", fontWeight: "300", color: "#2B3644", maxWidth: "26em" }}>Sie behalten jederzeit die Entscheidung über Ihre Angaben und unterschreiben Ihre Dokumente selbst.</p>
+              <div style={{ position: "relative", overflow: "hidden", aspectRatio: "3 / 2", marginTop: "clamp(28px, 4vw, 40px)" }}>
+                <Image src="/images/familie.jpg" alt="Beraterin ordnet gemeinsam mit einem Paar Unterlagen am Schreibtisch (Symbolbild)" fill sizes="(max-width: 980px) 100vw, 42vw" style={{ objectFit: "cover" }} />
+                <span style={{ position: "absolute", left: "12px", bottom: "10px", fontSize: "10px", letterSpacing: ".14em", textTransform: "uppercase", color: "#FFFFFF", background: "rgba(14,26,40,.55)", padding: "2px 7px" }}>Symbolbild</span>
+              </div>
             </div>
             <div className="rv" style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #D9CFBB" }}>
               <div style={{ display: "grid", gridTemplateColumns: "64px minmax(0, 1fr)", gap: "18px", padding: "30px 0", borderBottom: "1px solid #D9CFBB" }}>
@@ -141,6 +143,17 @@ export default function AdminPage() {
                 <div>
                   <h3 className="serif" style={{ margin: "0", fontSize: "28px", fontWeight: "600", color: "#163A5F" }}>Unterlagen ordnen</h3>
                   <p style={{ margin: "8px 0 0", fontSize: "15.5px", color: "#2B3644" }}>Sortieren und Strukturieren persönlicher Unterlagen, damit Sie wichtige Dokumente schnell finden.</p>
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "64px minmax(0, 1fr)", gap: "18px", padding: "30px 0", borderBottom: "1px solid #D9CFBB" }}>
+                <span className="serif" style={{ fontSize: "24px", fontStyle: "italic", color: "#8A6508" }}>V.</span>
+                <div>
+                  <h3 className="serif" style={{ margin: "0", fontSize: "28px", fontWeight: "600", color: "#163A5F" }}>Unterstützung in familiären Angelegenheiten</h3>
+                  <ul style={{ margin: "8px 0 0", paddingLeft: "20px", fontSize: "15.5px", color: "#2B3644", display: "flex", flexDirection: "column", gap: "6px" }}>
+                    <li>Zusammenstellung von Unterlagen für Scheidung oder Trennung</li>
+                    <li>Hilfe beim Ausfüllen von Formularen (z. B. Unterhaltsberechnung, Sorgerechtsdokumente)</li>
+                    <li>Sortierung und Strukturierung von Dokumenten für Anwälte oder Mediatoren.</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -257,9 +270,11 @@ export default function AdminPage() {
             </div>
           </div>
         </section>
-        <section id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+        <section className="lux-host" id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+          <LuxuryOrnaments />
           <div aria-hidden="true" style={{ position: "absolute", left: "50%", top: "0", width: "1px", height: "72px", background: "linear-gradient(#D4A017, rgba(212,160,23,0))" }}></div>
           <div className="wrap rv" style={{ maxWidth: "920px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
+            <ServiceIllustration kind="documents" />
             <div className="eyebrow" style={{ color: "#8A6508" }}>Anfrage &amp; Termin</div>
             <h2 id="cta-title" className="serif" style={{ margin: "0", fontSize: "clamp(42px, 5.4vw, 72px)", lineHeight: "1.04", fontWeight: "500", color: "#163A5F" }}>Bringen wir Ordnung <span style={{ fontStyle: "italic", color: "#8A6508" }}>hinein.</span></h2>
             <p style={{ margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", maxWidth: "34em" }}>Stellen Sie Ihre Anfrage online, laden Sie die betreffenden Schreiben hoch und wählen Sie auf Wunsch direkt einen Termin.</p>
@@ -267,7 +282,7 @@ export default function AdminPage() {
               <Link className="btn btn-navy" href="/anfrage" aria-describedby="cta-proto">Anfrage starten <span className="arr" aria-hidden="true">→</span></Link>
               <WhatsAppCta className="btn btn-line" describedBy="cta-proto" />
             </div>
-            {site.demoMode ? (
+            {site.showDemoNotices ? (
               <p id="cta-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung; WhatsApp wird später verbunden.</p>
             ) : null}
           </div>

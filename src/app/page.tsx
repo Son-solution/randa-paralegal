@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
+import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import ContactValue from "@/components/ui/ContactValue";
 import WhatsAppCta from "@/components/ui/WhatsAppCta";
 import JsonLd from "@/components/seo/JsonLd";
@@ -27,7 +28,8 @@ export default function HomePage() {
     <SiteShell page="home">
       <JsonLd page="home" />
       <main id="start">
-        <section aria-labelledby="hero-title" style={{ position: "relative", padding: "clamp(56px, 8vw, 112px) 0 clamp(72px, 9vw, 128px)" }}>
+        <section className="lux-host" aria-labelledby="hero-title" style={{ position: "relative", padding: "clamp(56px, 8vw, 112px) 0 clamp(72px, 9vw, 128px)" }}>
+          <LuxuryOrnaments />
           <div className="wrap hero-grid">
             <div style={{ display: "flex", flexDirection: "column", gap: "28px", position: "relative", zIndex: "2" }}>
               {/* Main heading per briefing: the business name. The large slogan below keeps its look as the visual headline. */}
@@ -385,7 +387,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-        <section id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+        <section className="lux-host" id="anfrage" aria-labelledby="cta-title" style={{ background: "#F3EEE4", padding: "clamp(88px, 11vw, 150px) 0", position: "relative", overflow: "hidden", borderTop: "1px solid #E4DCCB" }}>
+          <LuxuryOrnaments />
           <div aria-hidden="true" style={{ position: "absolute", left: "50%", top: "0", width: "1px", height: "72px", background: "linear-gradient(#D4A017, rgba(212,160,23,0))" }}></div>
           <div className="wrap rv" style={{ maxWidth: "920px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "24px" }}>
             <div className="eyebrow" style={{ color: "#8A6508" }}>Anfrage &amp; Termin</div>
@@ -395,7 +398,7 @@ export default function HomePage() {
               <Link className="btn btn-navy" href="/anfrage" aria-describedby="cta-proto">Anfrage starten <span className="arr" aria-hidden="true">→</span></Link>
               <WhatsAppCta className="btn btn-line" describedBy="cta-proto" />
             </div>
-            {site.demoMode ? (
+            {site.showDemoNotices ? (
               <p id="cta-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung; WhatsApp wird später verbunden.</p>
             ) : null}
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px 36px", marginTop: "18px", paddingTop: "26px", borderTop: "1px solid #D9CFBB", fontSize: "14px", color: "#2B3644" }}>
