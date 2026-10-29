@@ -616,9 +616,11 @@ fieldset legend.lbl { margin-bottom:14px !important; }
 
 /* ------------------------------------------------------------------
  * No sharp corners: every remaining box in the content gets a soft radius.
+ * Matches both the server-rendered style text ("background:#fff") and the
+ * browser-normalised form after client navigation ("background: rgb(…)").
  * (The intake form and its summary keep their own, already rounded, styles.)
  * ------------------------------------------------------------------ */
-.motion main :is(div,article,aside,p,dl,details,figure,a,li):is([style*="border:"],[style*="background:#"],[style*="background:rgba"]):not(.layout *, [role="img"] *) { border-radius:var(--r-card); }
+.motion main :is(div,article,aside,p,dl,details,figure,a,li):is([style*="border:"],[style*="background:"]):not(.layout *, [role="img"] *) { border-radius:var(--r-card); }
 .motion main span:is([style*="border:"],[style*="background:"]) { border-radius:6px; }
 .rm,.calnav { border-radius:var(--r-ui); }
 .sw { border-radius:5px; }
