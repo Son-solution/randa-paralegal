@@ -20,7 +20,9 @@ function collect(main: HTMLElement): { units: HTMLElement[]; images: HTMLElement
   const skip = (el: Element) => !!el.closest("form, .layout, aside");
   const add = (el: Element, i = 0) => {
     if (skip(el)) return;
-    (el as HTMLElement).style.setProperty("--i", String(Math.min(i, MAX_STAGGER)));
+    // Stagger index as a data attribute: touching el.style would rewrite the inline style
+    // attribute and break the [style*=…] rules in globals.css (e.g. rounded corners).
+    (el as HTMLElement).dataset.rvi = String(Math.min(i, MAX_STAGGER));
     units.add(el as HTMLElement);
   };
 
@@ -81,7 +83,10 @@ export default function ScrollReveal() {
     return () => {
       io.disconnect();
       root.classList.remove("reveal-on");
-      [...units, ...images].forEach((el) => el.classList.remove("rvx", "rvx-img", "is-in"));
+      [...units, ...images].forEach((el) => {
+        el.classList.remove("rvx", "rvx-img", "is-in");
+        delete el.dataset.rvi;
+      });
     };
   }, [pathname]);
 
