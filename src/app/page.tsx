@@ -160,21 +160,21 @@ export default function HomePage() {
             </div>
             <div className="rv" style={{ display: "flex", flexDirection: "column" }}>
               <div style={{ display: "grid", gridTemplateColumns: "56px minmax(0, 1fr)", gap: "20px", padding: "26px 0", borderTop: "1px solid rgba(255,255,255,.18)" }}>
-                <span className="serif" aria-hidden="true" style={{ fontSize: "30px", color: "#D4A017", lineHeight: "1" }}>§</span>
+                <span className="serif" aria-hidden="true" style={{ fontSize: "28px", color: "#D4A017", lineHeight: "1", height: "27px", display: "flex", alignItems: "center", justifyContent: "center" }}>§</span>
                 <div>
                   <h3 style={{ margin: "0", fontSize: "16px", fontWeight: "600", letterSpacing: ".02em" }}>Keine Rechtsberatung</h3>
                   <p style={{ margin: "6px 0 0", fontSize: "15px", color: "#C9D3DE" }}>Meine Unterstützung ersetzt keine anwaltliche Konsultation.</p>
                 </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "56px minmax(0, 1fr)", gap: "20px", padding: "26px 0", borderTop: "1px solid rgba(255,255,255,.18)" }}>
-                <span className="serif" aria-hidden="true" style={{ fontSize: "30px", color: "#D4A017", lineHeight: "1" }}>⁂</span>
+                <span className="serif" aria-hidden="true" style={{ fontSize: "28px", color: "#D4A017", lineHeight: "1", height: "27px", display: "flex", alignItems: "center", justifyContent: "center" }}>⁂</span>
                 <div>
                   <h3 style={{ margin: "0", fontSize: "16px", fontWeight: "600", letterSpacing: ".02em" }}>Keine rechtliche Vertretung</h3>
                   <p style={{ margin: "6px 0 0", fontSize: "15px", color: "#C9D3DE" }}>Ich vertrete Sie nicht vor Gerichten oder Behörden. Beim Dolmetschen übernehme ich ausschliesslich die Sprachmittlung.</p>
                 </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "56px minmax(0, 1fr)", gap: "20px", padding: "26px 0", borderTop: "1px solid rgba(255,255,255,.18)", borderBottom: "1px solid rgba(255,255,255,.18)" }}>
-                <span className="serif" aria-hidden="true" style={{ fontSize: "30px", color: "#D4A017", lineHeight: "1" }}>◦</span>
+                <span className="serif" aria-hidden="true" style={{ fontSize: "28px", color: "#D4A017", lineHeight: "1", height: "27px", display: "flex", alignItems: "center", justifyContent: "center" }}>◦</span>
                 <div>
                   <h3 style={{ margin: "0", fontSize: "16px", fontWeight: "600", letterSpacing: ".02em" }}>Kein Ersatz für Therapie</h3>
                   <p style={{ margin: "6px 0 0", fontSize: "15px", color: "#C9D3DE" }}>Coaching ist ein unterstützender Prozess und ersetzt keine psychologische, therapeutische oder medizinische Behandlung.</p>

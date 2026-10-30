@@ -629,3 +629,10 @@ fieldset legend.lbl { margin-bottom:14px !important; }
 .sit-grid > .sit { border-radius:var(--r-card); }
 @media (min-width:720px) { .sit-grid > .sit { flex-basis:calc((100% - 16px) / 2); } }
 @media (min-width:1024px) { .sit-grid > .sit { flex-basis:calc((100% - 32px) / 3); } }
+
+/* Phones: the decorative gold frame inside navy sections sits closer to the edge,
+   and the content keeps a clear gap to it (content was spilling over the frame). */
+@media (max-width:700px) {
+  .motion main section > div[aria-hidden="true"][style*="inset"][style*="border"] { inset:10px !important; }
+  .motion main section:has(> div[aria-hidden="true"][style*="inset"][style*="border"]) > .wrap { padding-left:30px; padding-right:30px; }
+}
