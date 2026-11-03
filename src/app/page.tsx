@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
 import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import ContactValue from "@/components/ui/ContactValue";
-import WhatsAppCta from "@/components/ui/WhatsAppCta";
+import CallCta from "@/components/ui/CallCta";
 import JsonLd from "@/components/seo/JsonLd";
 import { site } from "@/config/site";
 import { baseOpenGraph } from "@/lib/seo";
@@ -396,10 +396,10 @@ export default function HomePage() {
             <p style={{ margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", maxWidth: "36em" }}>Stellen Sie Ihre Anfrage online – in wenigen Schritten, mit Ihren Unterlagen und auf Wunsch direkt mit Terminwahl. Sie können Ihren Entwurf speichern und später weiterführen.</p>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "14px", marginTop: "10px" }}>
               <Link className="btn btn-navy" href="/anfrage" aria-describedby="cta-proto">Anfrage starten <span className="arr" aria-hidden="true">→</span></Link>
-              <WhatsAppCta className="btn btn-line" describedBy="cta-proto" />
+              <CallCta className="btn btn-line" describedBy="cta-proto" />
             </div>
             {site.showDemoNotices ? (
-              <p id="cta-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung; WhatsApp wird später verbunden.</p>
+              <p id="cta-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung.</p>
             ) : null}
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px 36px", marginTop: "18px", paddingTop: "26px", borderTop: "1px solid #D9CFBB", fontSize: "14px", color: "#2B3644" }}>
               <span>Telefon <ContactValue kind="phone" /></span>

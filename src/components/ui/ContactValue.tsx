@@ -1,4 +1,4 @@
-import { site } from "@/config/site";
+import { phoneHref, site } from "@/config/site";
 
 type Props = { kind: "phone" | "email"; color?: string };
 
@@ -6,7 +6,7 @@ type Props = { kind: "phone" | "email"; color?: string };
 export default function ContactValue({ kind, color = "#8A6508" }: Props) {
   const value = site.contact[kind];
   if (!value) return <span style={{ color }}>[folgt]</span>;
-  const href = kind === "phone" ? `tel:${value.replace(/[^\d+]/g, "")}` : `mailto:${value}`;
+  const href = kind === "phone" ? phoneHref() ?? undefined : `mailto:${value}`;
   return (
     <a href={href} style={{ color }}>
       {value}

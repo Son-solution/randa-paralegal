@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function AnfragePage() {
   return (
-    <SiteShell page="intake" showWhatsApp={false}>
+    <SiteShell page="intake" showCallButton={false}>
       <IntakeForm />
     </SiteShell>
   );

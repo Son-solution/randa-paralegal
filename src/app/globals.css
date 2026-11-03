@@ -80,10 +80,10 @@ html { scroll-behavior:smooth; scroll-padding-top:124px; scroll-padding-bottom:4
 .faq details[open] .pm { transform:rotate(45deg); }
 .faq summary:hover .q { color:#8A6508; }
 .faq details[open] .ans { animation:fadeDown .45s cubic-bezier(.2,.7,.2,1) both; }
-.wa { transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s; }
-.wa:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 18px 40px -12px rgba(14,26,40,.5); }
-.wa .tip { border-radius:var(--r-ui); opacity:0; transform:translateX(8px); transition:opacity .35s,transform .35s; pointer-events:none; }
-.wa:hover .tip,.wa:focus-visible .tip { opacity:1; transform:none; }
+.call-fab { transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s; }
+.call-fab:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 18px 40px -12px rgba(14,26,40,.5); }
+.call-fab .tip { border-radius:var(--r-ui); opacity:0; transform:translateX(8px); transition:opacity .35s,transform .35s; pointer-events:none; }
+.call-fab:hover .tip,.call-fab:focus-visible .tip { opacity:1; transform:none; }
 a:focus-visible,summary:focus-visible,button:focus-visible { outline:2px solid #D4A017; outline-offset:3px; }
 .mbtn { display:none; }
 .mpanel { border-radius:0 0 var(--r-card) var(--r-card); animation:fadeDown .4s cubic-bezier(.2,.7,.2,1) both; }
