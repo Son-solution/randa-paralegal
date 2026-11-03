@@ -100,9 +100,9 @@ export const FORMAT: Option[] = [
   { id: "vorort", label: "Persönlich in Zürich und Umgebung", desc: "Der Treffpunkt wird individuell vereinbart." },
 ];
 
-export type SlotState = "free" | "busy" | "travel" | "past";
+export type SlotState = "free" | "past";
 
-export const SLOT_TEXT: Record<SlotState, string> = { free: "frei", busy: "belegt", travel: "Reisezeit", past: "vorbei" };
+export const SLOT_TEXT: Record<SlotState, string> = { free: "frei", past: "vorbei" };
 
 export const WD = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 export const MONTHS = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];

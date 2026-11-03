@@ -30,14 +30,10 @@ export const site = {
   /** Languages offered (from the project briefing). */
   languages: ["Deutsch", "Arabisch", "Aramäisch"],
 
-  /**
-   * Contact details – NOT YET CONFIRMED. Leave `null` until supplied.
-   * whatsapp: international format without spaces, e.g. "+41791234567".
-   */
+  /** Contact details – leave `null` until confirmed. */
   contact: {
-    phone: null as string | null,
-    email: null as string | null,
-    whatsapp: null as string | null,
+    phone: "+41 78 625 12 42" as string | null,
+    email: "info@randa-paralegalservices.ch" as string | null,
     /** Postal address for the Impressum, e.g. ["Musterstrasse 1", "8000 Zürich"]. */
     address: null as string[] | null,
   },
@@ -58,16 +54,8 @@ export const site = {
   },
 
   /**
-   * Demo mode for the intake form ("Anfrage & Termin").
-   * While `true`, nothing is transmitted, uploaded, stored or booked.
-   * The production backend is a separate, not yet approved phase.
-   */
-  demoMode: true,
-
-  /**
-   * Shows the "Prototyp" notes under the call-to-action buttons. Turned off at the
-   * client’s request while the site is offline – the form still does NOT send anything
-   * (demoMode), so connect it before going live.
+   * Shows the old "Prototyp" notes under the call-to-action buttons. Keep `false`:
+   * the intake form now sends requests by e-mail (src/app/api/anfrage/route.ts).
    */
   showDemoNotices: false,
 
@@ -83,11 +71,11 @@ export const site = {
 
   /** Text of the prototype notice. */
   prototypeNotice:
-    "Prototyp – Anfrageformular, Terminbuchung, WhatsApp und Kontaktangaben sind noch nicht aktiv.",
+    "Prototyp – Anfrageformular, Terminbuchung und Kontaktangaben sind noch nicht aktiv.",
 } as const;
 
-/** Builds a wa.me link once a WhatsApp number is configured. */
-export function whatsappHref(): string | null {
-  const n = site.contact.whatsapp;
-  return n ? `https://wa.me/${n.replace(/[^\d]/g, "")}` : null;
+/** Builds a tel: link once a phone number is configured. */
+export function phoneHref(): string | null {
+  const n = site.contact.phone;
+  return n ? `tel:${n.replace(/[^\d+]/g, "")}` : null;
 }

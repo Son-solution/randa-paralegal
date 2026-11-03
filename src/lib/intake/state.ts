@@ -1,4 +1,5 @@
 /** Form state of the intake form. Kept in React state (memory) only – never in localStorage/sessionStorage. */
+// FormData is also the payload sent to /api/anfrage (see src/lib/intake/payload.ts).
 import type { ServiceId } from "./constants";
 import { addDays, isoParts, zurichNow } from "./dates";
 import type { FileError, FileMeta } from "./files";
@@ -27,6 +28,8 @@ export type FormState = FormData & {
   svcNotice: string;
   returnTo6: boolean;
   submitting: boolean;
+  /** Shown in step 6 when sending failed. */
+  submitError: string;
   submitted: boolean;
   ref: string;
   announce: string;
@@ -69,6 +72,7 @@ export function initialState(): FormState {
     returnTo6: false,
     consent: { privacy: false, self: false, wa: false },
     submitting: false,
+    submitError: "",
     submitted: false,
     ref: "",
     announce: "",

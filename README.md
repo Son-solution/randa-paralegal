@@ -2,7 +2,7 @@
 
 Website für **Randa Paralegal Services, Zürich**: Startseite, Über mich, drei Leistungsseiten und das mehrstufige Formular «Anfrage & Termin».
 
-> **Status: Prototyp / Demo-Modus.** Das Formular überträgt, speichert und bucht nichts. Es gibt kein Backend, keine Datenbank, keinen E-Mail-Versand, keine Google-Calendar-Anbindung und keinen Datei-Upload. Alle Eingaben bleiben nur im Arbeitsspeicher des Browserfensters und gehen beim Neuladen verloren.
+> **Status:** Das Formular sendet Anfragen per E-Mail (Resend) an Randa und schickt der anfragenden Person eine Eingangsbestätigung. Es gibt keine Datenbank, keine Google-Calendar-Anbindung und (vorerst) keinen Datei-Upload. Bis zum Absenden bleiben alle Eingaben nur im Arbeitsspeicher des Browserfensters.
 
 ---
 
@@ -34,7 +34,7 @@ npm run lint         # ESLint
 npm run typecheck    # TypeScript-Prüfung ohne Ausgabe
 ```
 
-Optional: `.env.example` nach `.env.local` kopieren und `NEXT_PUBLIC_SITE_URL` setzen (wird für Canonical-URLs, Sitemap, robots.txt und Open-Graph-Bilder verwendet).
+`.env.example` nach `.env.local` kopieren und anpassen: `NEXT_PUBLIC_SITE_URL` (Canonical-URLs, Sitemap, robots.txt, Open-Graph-Bilder) und `RESEND_API_KEY` (ohne Schlüssel zeigt das Formular beim Absenden eine Fehlermeldung mit Telefon und E-Mail).
 
 ## Projektstruktur
 
@@ -52,21 +52,22 @@ src/
     jugendcoaching/                  /jugendcoaching
     dolmetschen/                     /dolmetschen
     anfrage/                         /anfrage  (Formular «Anfrage & Termin»)
+    api/anfrage/route.ts             POST /api/anfrage – prüft die Anfrage und versendet die E-Mails (Resend)
     kontakt/                         /kontakt  (Kontaktangaben, Standort – Platzhalter «[folgt]»)
     rechtliche-hinweise/             /rechtliche-hinweise  (Auszug AGB aus dem Briefing)
     not-found.tsx    404-Seite
     sitemap.ts, robots.ts
     icon.png, apple-icon.png, favicon.ico   (vorläufiges Favicon, siehe offene Punkte)
   components/
-    layout/          Header (inkl. Mobile-Menü), Footer, Prototyp-Hinweis, WhatsApp-Button, SiteShell
-    intake/          IntakeForm.tsx – das Formular inkl. Kalender, Dokumente, Überprüfung, Demo-Absenden
+    layout/          Header (inkl. Mobile-Menü), Footer, Prototyp-Hinweis, Anruf-Button, SiteShell
+    intake/          IntakeForm.tsx – das Formular inkl. Kalender, Dokumente, Überprüfung, Absenden
     seo/             JSON-LD (strukturierte Daten, nur bestätigte Angaben)
-    ui/              Kontaktangabe «[folgt]», WhatsApp-Aufruf
+    ui/              Kontaktangabe «[folgt]», Anruf-Aufruf
   config/
-    site.ts          ⇦ Geschäftsangaben (Kontakt, rechtliche Seiten, Demo-Modus)
+    site.ts          ⇦ Geschäftsangaben (Kontakt, rechtliche Seiten)
     booking.ts       ⇦ Termin- und Upload-Einstellungen (Arbeitszeiten = Annahmen!)
     navigation.ts    Routen und Leistungen
-  lib/intake/        Formular-Logik: Validierung, Datumsfunktionen, Demo-Kalender, Dateiprüfung, Zustand
+  lib/intake/        Formular-Logik: Validierung, Datumsfunktionen, Kalender, Dateiprüfung, Zustand, Zusammenfassung (summary.ts), Versanddaten (payload.ts), E-Mail-Texte (email.ts)
 ```
 
 ## Inhalte und Angaben bearbeiten
@@ -74,20 +75,21 @@ src/
 Alle veränderbaren Geschäftsangaben liegen in **`src/config/`**:
 
 - **`site.ts`**
-  - `contact.phone`, `contact.email`, `contact.whatsapp` – solange `null`, zeigt die Website «[folgt]» bzw. führt der WhatsApp-Button zum Formular. WhatsApp-Nummer im internationalen Format, z. B. `"+41791234567"`.
+  - `contact.phone`, `contact.email` – solange `null`, zeigt die Website «[folgt]» bzw. führt der Anruf-Button zum Formular. Telefonnummer im internationalen Format, z. B. `"+41 79 123 45 67"`.
   - `legal.impressum`, `legal.datenschutz`, `legal.agb` – Pfad der jeweiligen Seite, sobald sie (rechtlich geprüft) existiert, z. B. `"/impressum"`. Solange `null`, erscheint der Eintrag im Footer nur als Text.
   - `showPrototypeBar` – blendet den Prototyp-Hinweis oben auf jeder Seite ein/aus.
   - `allowIndexing` – solange `false`, tragen alle Seiten «noindex» und robots.txt nennt keine Sitemap. Erst zum öffentlichen Livegang auf `true` setzen.
-  - `demoMode` – steuert Demo-Hinweise. Hinweis: Auch bei `false` sendet das Formular nichts; dafür ist die (noch nicht freigegebene) Backend-Phase nötig.
-- **`booking.ts`** – angenommene Arbeitszeiten, Dauer des Erstgesprächs (45 Min.), Pause (15 Min.), Buchungshorizont, Upload-Regeln (PDF/JPG/PNG/HEIC, max. 10 MB, max. 10 Dateien).
+- **`booking.ts`** – angenommene Arbeitszeiten, Dauer des Erstgesprächs (45 Min.), Pause (15 Min.), Buchungshorizont, Upload-Regeln (PDF/JPG/PNG/HEIC, max. 10 MB, max. 10 Dateien). `uploads.enabled` ist `false`: Schritt 4 erklärt dann nur, dass Unterlagen später per E-Mail gesendet werden.
 
 Texte der Seiten stehen direkt in den jeweiligen `page.tsx`-Dateien.
 
-## Demo-Modus des Formulars – was passiert und was nicht
+## Formular «Anfrage & Termin» – was passiert
 
-- **Keine Netzwerkanfrage**: Absenden ist simuliert und zeigt eine Demo-Referenz (`DEMO-RPS-JJJJ-NNNN`). Es wird nicht behauptet, dass eine Anfrage eingegangen ist.
-- **Dokumente**: Es werden nur Dateiname, Typ und Grösse angezeigt; der Inhalt wird nie gelesen oder hochgeladen.
-- **Kalender**: Verfügbarkeiten sind simuliert (deterministisch aus Datum und Stunde berechnet). Nichts wird reserviert.
+- **Absenden**: `POST /api/anfrage` prüft alle Angaben erneut auf dem Server und sendet über Resend (1) die vollständige Anfrage an `contact.email` (Antworten gehen direkt an die anfragende Person) und (2) eine Eingangsbestätigung mit Referenz `RPS-JJJJ-NNNN`. Auf dem Server wird nichts gespeichert.
+- **Spam-Schutz**: verstecktes Feld (Honeypot), Mindestdauer seit dem Öffnen des Formulars und ein einfaches Limit pro IP.
+- **Fehler**: Schlägt der Versand fehl (z. B. fehlender `RESEND_API_KEY`), bleibt das Formular ausgefüllt und zeigt Telefon und E-Mail als Alternative.
+- **Dokumente**: vorerst kein Upload (`uploads.enabled = false`). Für einen späteren Upload braucht es einen Dateispeicher (z. B. Vercel Blob), da Vercel pro Anfrage höchstens 4,5 MB annimmt; die Datenschutzerklärung ist dann anzupassen.
+- **Kalender**: Terminwunsch innerhalb der (angenommenen) Arbeitszeiten, keine Google-Calendar-Anbindung. Randa bestätigt den Termin persönlich.
 - **Entwurf speichern**: nur im Arbeitsspeicher; `localStorage`/`sessionStorage` werden bewusst nicht verwendet.
 - Browser-Zurück/Vor wechselt zwischen den Schritten (`#schritt-1` … `#schritt-6`, `#bestaetigung`).
 
@@ -98,19 +100,26 @@ Texte der Seiten stehen direkt in den jeweiligen `page.tsx`-Dateien.
 3. Vercel erkennt Next.js automatisch. Einstellungen unverändert lassen:
    - Framework Preset: **Next.js**
    - Build Command: `npm run build` · Install Command: `npm install` · Output: automatisch
-4. Unter **Environment Variables** `NEXT_PUBLIC_SITE_URL` setzen, z. B. `https://www.ihre-domain.ch` (ohne Schrägstrich am Ende). Fehlt die Variable, wird die Produktions-Domain von Vercel (`VERCEL_PROJECT_PRODUCTION_URL`) verwendet, lokal `http://localhost:3000`.
+4. Unter **Environment Variables** `RESEND_API_KEY` und `NEXT_PUBLIC_SITE_URL` setzen, z. B. `https://www.ihre-domain.ch` (ohne Schrägstrich am Ende). Fehlt die Variable, wird die Produktions-Domain von Vercel (`VERCEL_PROJECT_PRODUCTION_URL`) verwendet, lokal `http://localhost:3000`.
 5. **Deploy** klicken. Jeder weitere Push auf den Hauptzweig wird automatisch veröffentlicht.
 6. Eigene Domain: im Vercel-Projekt unter **Settings → Domains** hinzufügen und die angezeigten DNS-Einträge beim Domain-Anbieter eintragen. Danach `NEXT_PUBLIC_SITE_URL` anpassen und neu deployen.
 
-Empfehlung: Solange Impressum und Datenschutzerklärung fehlen und das Formular im Demo-Modus ist, die Website nur als Vorschau (nicht öffentlich beworben) betreiben.
+### E-Mail-Versand einrichten (Resend)
+
+1. Konto auf [resend.com](https://resend.com) erstellen → **Domains → Add Domain** → `randa-paralegalservices.ch` (Region: **eu-west-1 / Irland** empfohlen).
+2. Die angezeigten DNS-Einträge (MX/SPF/DKIM für die Subdomain `send`) beim Domain-Anbieter eintragen und auf «Verified» warten. Bestehende E-Mail-Einträge der Domain bleiben unverändert.
+3. **API Keys → Create API Key** (Berechtigung «Sending access») und den Schlüssel in Vercel als `RESEND_API_KEY` speichern, dann neu deployen.
+4. Testanfrage über `/anfrage` senden und prüfen, ob sie im Postfach `info@…` ankommt (auch im Spam-Ordner nachsehen).
+
+Empfehlung: Solange das Impressum unvollständig ist (Postadresse), die Website nicht öffentlich bewerben.
 
 ## Offene Punkte (vor dem Livegang zu klären)
 
-- Telefonnummer, E-Mail-Adresse und WhatsApp-Nummer (`src/config/site.ts`).
-- Impressum, Datenschutzerklärung, AGB – Inhalte müssen von Randa Kale bzw. einer Fachperson erstellt und geprüft werden; sie sind hier bewusst **nicht** enthalten.
+- Postadresse für Impressum/Datenschutz (`src/config/site.ts`). Telefonnummer und E-Mail sind eingetragen.
+- Impressum, Datenschutzerklärung, Cookie-Richtlinie und AGB-Auszug liegen als Entwurf vor (`/impressum`, `/datenschutz`, `/cookie-richtlinie`, `/rechtliche-hinweise`) und sollten von einer Fachperson geprüft werden.
 - Arbeitszeiten für Termine (in `booking.ts` nur angenommen; sie werden nirgends als Öffnungszeiten veröffentlicht).
 - Angebotene Sprachrichtungen/Dialekte (im Formular als vorläufig gekennzeichnet).
 - Regelung für Jugendliche unter 18 Jahren (Einwilligung) – auf der Website als vorläufiger Hinweis gekennzeichnet.
 - Favicon: vorläufig aus dem «R» des Logos zugeschnitten; durch eine freigegebene Version ersetzen (`src/app/icon.png`, `apple-icon.png`, `favicon.ico`).
 - Fotos: Symbolbilder. Vor der Veröffentlichung die Nutzungsrechte bestätigen bzw. durch eigene/lizenzierte Bilder ersetzen. Keine abgebildete Person stellt Randa Kale dar.
-- Backend (Formularversand, Dokumentenablage, Kalender, E-Mails) – separate Phase, noch nicht freigegeben.
+- Dokumenten-Upload und Kalender-Anbindung – spätere Phase.

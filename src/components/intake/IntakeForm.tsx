@@ -1,14 +1,16 @@
 "use client";
 
 /**
- * Intake form "Anfrage & Termin" – DEMO MODE.
+ * Intake form "Anfrage & Termin".
  *
- * - Nothing is transmitted, uploaded, stored or booked. There is no network request.
- * - All entries live in React state (memory) only and are lost on reload.
+ * - "Absenden" posts the entries to /api/anfrage, which e-mails them to Randa and
+ *   sends the client a confirmation (reference RPS-YYYY-NNNN). Nothing is stored on the server.
+ * - Until then, all entries live in React state (memory) only and are lost on reload.
  *   localStorage / sessionStorage are deliberately NOT used.
- * - Uploaded files: only name, type and size are kept for display; the content is never read.
- * - The calendar availability is simulated (see src/lib/intake/booking.ts).
- * - The submission is simulated and creates a demo reference (DEMO-RPS-YYYY-NNNN).
+ * - Documents: while uploads.enabled is false, step 4 only explains that they are sent
+ *   later by e-mail. Even when enabled, files are only listed – their content is never read or sent.
+ * - The calendar offers a requested time ("Terminwunsch") within the working hours; Randa
+ *   confirms it personally (see src/lib/intake/booking.ts).
  *
  * The markup is ported 1:1 from the approved prototype so the page looks identical.
  */
@@ -16,15 +18,18 @@ import Link from "next/link";
 import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import { Component, Fragment, type ChangeEvent, type CSSProperties, type DragEvent, type FocusEvent, type FormEvent, type KeyboardEvent, type MouseEvent } from "react";
 import { booking, uploads } from "@/config/booking";
-import { firstAvailableIn, dayInfo, isSlotFree, slotsFor, type Slot } from "@/lib/intake/booking";
+import { firstAvailableIn, dayInfo, slotsFor, type Slot } from "@/lib/intake/booking";
 import {
-  ADMIN_TASKS, AGE, BOOK, DOCS, FORMAT, FRIST, FUER, INT_ART, INT_DIR, INT_MODUS, KONTAKT, MONTHS, SERVICES, SLOT_TEXT, STEPS, URG,
+  ADMIN_TASKS, BOOK, DOCS, FORMAT, FRIST, FUER, INT_ART, INT_DIR, INT_MODUS, KONTAKT, MONTHS, SERVICES, SLOT_TEXT, STEPS, URG,
   YOUTH_ART, YOUTH_SUP, labelOf, type Option,
 } from "@/lib/intake/constants";
 import { addDays, daysInMonth, dow, fmtLong, fmtShort, hhmm, isoFrom, isoParts, pad, zurichNow } from "@/lib/intake/dates";
 import { addFileMeta, sizeLabel } from "@/lib/intake/files";
+import { toPayload } from "@/lib/intake/payload";
 import { clone, DRAFT_KEYS, initialState, sampleDraft, type Draft, type FormState, type TextGroup } from "@/lib/intake/state";
+import { buildSummary, chosenSlotLabel } from "@/lib/intake/summary";
 import { asInstitution, ERR_KEYS, validate, type ErrKey } from "@/lib/intake/validation";
+import { phoneHref, site } from "@/config/site";
 
 type Bool = "true" | "false";
 type HistKey = number | "done";
@@ -42,6 +47,9 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
   private revealSlots = false;
   // dragenter/dragleave also fire for the drop zone's child elements; the counter keeps the highlight steady.
   private dragDepth = 0;
+  // Spam checks for /api/anfrage: a hidden field only bots fill in, and the time since the form was opened.
+  private honeypot = "";
+  private openedAt = 0;
   private readonly onPopBound = (ev: PopStateEvent) => this.onPop(ev);
 
   constructor(props: Record<string, never>) {
@@ -52,6 +60,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
   componentDidMount() {
     const st = this.state;
     this.prev = { step: st.step, submitted: st.submitted, focusTick: st.focusTick };
+    this.openedAt = Date.now();
     window.addEventListener("popstate", this.onPopBound);
     this.hist("replace", 1);
   }
@@ -250,8 +259,8 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
     this.goTo(s.step + 1);
   }
 
-  /** DEMO: simulates the submission. Nothing is sent – there is no network request. */
-  submit() {
+  /** Sends the request to /api/anfrage (e-mail to Randa + confirmation to the client). */
+  async submit() {
     const s = this.state;
     if (s.submitting) return;
     for (let n = 1; n <= 6; n++) {
@@ -265,17 +274,30 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
         return;
       }
     }
-    this.setState({ submitting: true, announce: "Anfrage wird gesendet …" });
-    this.later(() => {
-      // Submitting again after "Back" from the confirmation keeps the same demo reference.
-      const year = zurichNow().iso.slice(0, 4);
-      const ref = this.state.ref || "RPS-" + year + "-" + String(Math.floor(1000 + Math.random() * 9000));
-      this.setState({ submitting: false, submitted: true, ref, announce: "Vielen Dank für Ihre Anfrage." });
-      this.hist("push", "done");
-    }, 1300);
+    this.setState({ submitting: true, submitError: "", announce: "Anfrage wird gesendet …" });
+    let ref = "";
+    let error = "";
+    try {
+      const res = await fetch("/api/anfrage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: toPayload(s), hp: this.honeypot, ms: Date.now() - this.openedAt }),
+      });
+      const json = (await res.json().catch(() => ({}))) as { ref?: string; error?: string };
+      if (res.ok && json.ref) ref = json.ref;
+      else error = json.error || "Die Anfrage konnte nicht gesendet werden.";
+    } catch {
+      error = "Keine Verbindung. Bitte prüfen Sie Ihre Internetverbindung.";
+    }
+    if (!ref) {
+      this.setState({ submitting: false, submitError: error, announce: error });
+      return;
+    }
+    this.setState({ submitting: false, submitted: true, ref, announce: "Vielen Dank für Ihre Anfrage." });
+    this.hist("push", "done");
   }
 
-  /** DEMO: keeps only file metadata in memory – the file content is never read or uploaded. */
+  /** Keeps only file metadata in memory – the file content is never read or uploaded. */
   addFiles(list: FileList | null | undefined) {
     if (!list || !list.length) return;
     const { files, errors, added } = addFileMeta(this.state.files, list);
@@ -534,47 +556,16 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
     });
     const anyFree = rawSlots.some((x) => !x.disabled);
     // A chosen slot only counts while it is still bookable (it can expire or stop fitting after a format change).
-    const hasChosen = s.b.mode === "mit" && isSlotFree(s.b.date, s.b.time, fmt);
+    const chosenLong = chosenSlotLabel(s);
+    const hasChosen = !!chosenLong;
     const chosenH = s.b.time ? parseInt(s.b.time, 10) : 0;
-    const chosenLong = hasChosen ? fmtLong(s.b.date) + ", " + hhmm(chosenH, 0) + "–" + hhmm(chosenH, dur) + " Uhr" : "";
     const fmtLabel = s.b.format === "vorort" ? "Persönlich in Zürich und Umgebung – Treffpunkt nach Vereinbarung." : s.b.format === "online" ? "Online über Google Meet." : "";
 
     // files
     const files = s.files.map((f) => ({ name: f.name, ext: f.ext, sizeLabel: sizeLabel(f.size), removeLabel: "Datei " + f.name + " entfernen", remove: () => this.removeFile(f.id) }));
 
-    // review
-    const rows = (pairs: [string, string][]) => pairs.filter((p) => p[1] && String(p[1]).trim()).map((p) => ({ k: p[0], v: p[1] }));
-    const joinChecked = (list: Option[], map: Record<string, boolean>) => list.filter((o) => map[o.id]).map((o) => o.label).join(", ");
-    const rvContact = rows([
-      ["Anfrage", hasInterp ? (asInst ? "Im Namen von: " + s.c.institution.trim() : labelOf(FUER, "selbst")) : ""],
-      ["Anrede", s.c.anrede], ["Name", (s.c.vorname + " " + s.c.nachname).trim()], ["E-Mail", s.c.email], ["Telefon", s.c.telefon || "—"],
-      ["Wohnort / Gemeinde", s.c.ort], ["Bevorzugter Kontaktweg", labelOf(KONTAKT, s.c.kontakt)], ["Altersgruppe", hasYouth ? AGE[s.c.alter] || "" : ""],
-    ]);
-    const rvAdmin = rows([
-      ["Unterstützung", joinChecked(ADMIN_TASKS, s.a.aufgaben)], ["Stelle", s.a.stelle], ["Situation", s.a.situation],
-      ["Unterlagen vorhanden", labelOf(DOCS, s.a.dokumente)], ["Behördliche Frist", s.a.frist === "ja" ? "Ja, bis " + fmtShort(s.a.fristDatum) : labelOf(FRIST, s.a.frist)], ["Gewünschtes Ergebnis", s.a.ziel],
-    ]);
-    const rvYouth = rows([
-      ["Aktuelle Situation", s.y.situation], ["Unterstützung", joinChecked(YOUTH_SUP, s.y.unterstuetzung)], ["Interessen und Ziele", s.y.interessen],
-      ["Herausforderungen", s.y.herausforderungen], ["Form des Coachings", labelOf(YOUTH_ART, s.y.art)], ["Sprache", s.y.sprache],
-      ["Unter 18 Jahre", under18 ? "Ja – vorläufiger Hinweis zur Einwilligung beachten" : s.c.alter ? "Nein" : ""],
-    ]);
-    const rvInterp = rows([
-      ["Art", labelOf(INT_ART, s.i.art)], ["Sprachrichtung", labelOf(INT_DIR, s.i.richtung) + (s.i.richtung ? " (vorläufig)" : "")], ["Variante / Dialekt", s.i.variante],
-      ["Termin oder Dokument", s.i.anlass], ["Thema", s.i.thema],
-      [s.i.art === "termin" ? "Datum des Termins" : "Gewünscht bis", s.i.datum ? fmtShort(s.i.datum) + (s.i.art === "termin" && s.i.zeit ? ", " + s.i.zeit.replace(":", ".") + " Uhr" : "") : ""],
-      ["Dauer", s.i.art === "termin" ? s.i.dauer : ""], ["Durchführung", s.i.art === "termin" ? labelOf(INT_MODUS, s.i.modus) : ""],
-    ]);
-    const deadlines: string[] = [];
-    if (hasAdmin && s.a.frist === "ja" && s.a.fristDatum) deadlines.push("Behördliche Frist: " + fmtShort(s.a.fristDatum));
-    if (hasInterp && s.i.art === "termin" && s.i.datum) deadlines.push("Dolmetsch-Termin: " + fmtShort(s.i.datum));
-    if (s.u.frist) deadlines.push("Wichtiges Datum: " + fmtShort(s.u.frist));
-    const rvUrg = rows([["Dringlichkeit", labelOf(URG, s.u.level) + " (eigene Einschätzung)"], ["Fristen und Daten", deadlines.join("\n") || "Keine angegeben"], ["Begründung", s.u.grund]]);
-    const rvFiles = s.files.length ? s.files.map((f) => f.name).join("\n") : "Keine Dokumente hinzugefügt.";
-    const rvBooking =
-      s.b.mode === "mit"
-        ? hasChosen ? chosenLong + " · " + labelOf(FORMAT, s.b.format) : "Termin gewünscht, aber noch nicht gewählt."
-        : "Anfrage ohne Termin – der Termin wird nach der Anfrage vereinbart.";
+    // review – the same summary is e-mailed to Randa (src/lib/intake/summary.ts)
+    const sum = s.step === 6 ? buildSummary(s) : null;
 
     const cs = {
       privacy: s.consent.privacy, self: s.consent.self, wa: s.consent.wa,
@@ -661,10 +652,12 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
       slots, slotsLoading: !!(s.b.date && s.slotsLoading), noDate: !s.b.date,
       showSlots: !!(s.b.date && !s.slotsLoading && anyFree), noSlots: !!(s.b.date && !s.slotsLoading && !anyFree),
       slotsTitle: s.b.date ? "Zeiten am " + fmtLong(s.b.date) : "Uhrzeit",
-      slotsVorOrtHint: s.b.format === "vorort" ? " Bei persönlichen Terminen wird Reisezeit eingeplant, daher sind weniger Zeiten wählbar." : "",
       hasChosen, chosenLong, chosenFormatLine: fmtLabel,
-      rvServices: sel.map((x) => x.title).join(" · ") || "—",
-      rvContact, rvAdmin, rvYouth, rvInterp, rvUrg, rvFiles, rvBooking,
+      rvServices: sum ? sum.services : "",
+      rvContact: sum ? sum.contact : [], rvAdmin: sum ? sum.admin : [], rvYouth: sum ? sum.youth : [], rvInterp: sum ? sum.interp : [],
+      rvUrg: sum ? sum.urgency : [], rvFiles: sum ? sum.files : "", rvBooking: sum ? sum.booking : "",
+      submitError: s.submitError,
+      uploadsOn: uploads.enabled, mailTo: site.contact.email, phone: site.contact.phone,
       cs,
       go1: go(1), go2: go(2), go3: go(3), go4: go(4), go5: go(5),
       submitting: s.submitting, submittingStr: bool(s.submitting),
@@ -695,11 +688,11 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
         this.hist("push", 1);
       },
       ref: s.ref,
-      doneBookingNote: hasChosen ? " sowie eine Kalendereinladung" + (s.b.format === "online" ? " mit Google-Meet-Link" : "") : "",
+      doneBookingNote: hasChosen ? " Ihren Terminwunsch bestätige ich Ihnen persönlich" + (s.b.format === "online" ? " – mit dem Google-Meet-Link" : "") + "." : "",
       sbServices: sel.map((x) => ({ num: x.num, title: x.title })), sbNoServices: sel.length === 0,
       sbKontakt: labelOf(KONTAKT, s.c.kontakt),
       sbUrg: urgLabel,
-      sbFiles: s.files.length === 0 ? "Keine" : s.files.length === 1 ? "1 Datei" : s.files.length + " Dateien",
+      sbFiles: !uploads.enabled ? "Später per E-Mail" : s.files.length === 0 ? "Keine" : s.files.length === 1 ? "1 Datei" : s.files.length + " Dateien",
       sbTermin: s.b.mode === "mit" ? (hasChosen ? fmtShort(s.b.date) + ", " + hhmm(chosenH, 0) : "Noch nicht gewählt") : "Ohne Termin",
       uploadAccept: uploads.accept,
     };
@@ -1412,7 +1405,21 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                         <>
                         <div className="stepanim">
                           <div className="eyebrow" style={{ color: "#8A6508", fontSize: "11px" }}>Schritt 4 · Dokumente</div>
-                          <h2 id="step-title" tabIndex={-1} className="serif" style={{ margin: "10px 0 8px", fontSize: "clamp(32px, 3.6vw, 46px)", lineHeight: "1.1", fontWeight: "500", color: "#163A5F", outline: "none" }}>Unterlagen hinzufügen</h2>
+                          <h2 id="step-title" tabIndex={-1} className="serif" style={{ margin: "10px 0 8px", fontSize: "clamp(32px, 3.6vw, 46px)", lineHeight: "1.1", fontWeight: "500", color: "#163A5F", outline: "none" }}>{v.uploadsOn ? "Unterlagen hinzufügen" : "Unterlagen"}</h2>
+                          {!v.uploadsOn ? (
+                            <>
+                            <p className="hint" style={{ fontSize: "15px", margin: "0 0 22px" }}>In diesem Schritt ist nichts zu tun.</p>
+                            <div className="note" role="note">
+                              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A6508" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M4 6h16v12H4z"></path>
+                                <path d="M4 7l8 6 8-6"></path>
+                              </svg>
+                              <div><b>Dokumente senden Sie bitte später.</b> Falls für Ihr Anliegen Unterlagen nötig sind, sage ich Ihnen nach Ihrer Anfrage, welche. Sie können sie mir dann per E-Mail{v.mailTo ? <> an <a href={`mailto:${v.mailTo}`} style={{ color: "#8A6508" }}>{v.mailTo}</a></> : null} senden – als Antwort auf die Eingangsbestätigung.</div>
+                            </div>
+                            </>
+                          ) : null}
+                          {v.uploadsOn ? (
+                          <>
                           <p className="hint" style={{ fontSize: "15px", margin: "0 0 22px" }}>Freiwillig. Fügen Sie nur Dokumente hinzu, die für Ihr Anliegen nötig sind.</p>
                           <label className={`drop ${v.dropCls}`} htmlFor="f-files" onDragOver={v.onDragOver} onDragEnter={v.onDragEnter} onDragLeave={v.onDragLeave} onDrop={v.onDrop}>
                             <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8A6508" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
@@ -1468,6 +1475,8 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                               </>
                             ) : null}
                           </div>
+                          </>
+                          ) : null}
                         </div>
                         </>
                       ) : null}
@@ -1601,7 +1610,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                                         </Fragment>
                                       ))}
                                     </div>
-                                    <p className="hint" style={{ margin: "0" }}>Jeweils 45 Minuten, mit 15 Minuten Pause dazwischen. «Belegt», «Reisezeit» und «Vorbei» sind nicht wählbar.{v.slotsVorOrtHint}</p>
+                                    <p className="hint" style={{ margin: "0" }}>Jeweils 45 Minuten, mit 15 Minuten Pause dazwischen. «Vorbei» ist nicht wählbar.</p>
                                     </>
                                   ) : null}
                                   {v.noSlots ? (
@@ -1791,6 +1800,24 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                               </>
                             ) : null}
                           </fieldset>
+                          {/* Spam trap: invisible to people and screen readers; bots that fill it in are ignored by /api/anfrage. */}
+                          <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", overflow: "hidden" }}>
+                            <label htmlFor="f-website">Website</label>
+                            <input id="f-website" type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" onChange={(ev) => (this.honeypot = ev.target.value)} />
+                          </div>
+                          {v.submitError ? (
+                            <>
+                            <div role="alert" style={{ marginTop: "24px", border: "1px solid #F3C7C2", background: "#FFFBFA", padding: "16px 20px" }}>
+                              <p className="err" style={{ margin: "0 0 6px" }}>{v.submitError}</p>
+                              <p style={{ margin: "0", fontSize: "14.5px", color: "#2B3644" }}>
+                                Bitte versuchen Sie es in einigen Minuten erneut – Ihre Angaben bleiben erhalten. Oder kontaktieren Sie mich direkt
+                                {v.phone ? <> per Telefon <a href={phoneHref() ?? undefined} style={{ color: "#8A6508" }}>{v.phone}</a></> : null}
+                                {v.phone && v.mailTo ? " oder" : null}
+                                {v.mailTo ? <> per E-Mail <a href={`mailto:${v.mailTo}`} style={{ color: "#8A6508" }}>{v.mailTo}</a></> : null}.
+                              </p>
+                            </div>
+                            </>
+                          ) : null}
                         </div>
                         </>
                       ) : null}
@@ -1853,7 +1880,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                     <p style={{ margin: "0", fontSize: "16px", color: "#2B3644", maxWidth: "34em" }}>Ihre Referenznummer</p>
                     <p className="serif" style={{ margin: "-8px 0 0", fontSize: "34px", letterSpacing: ".06em", color: "#163A5F" }}>{v.ref}</p>
                     <p style={{ margin: "0", fontSize: "15px", color: "#2B3644", maxWidth: "36em" }}>Ich melde mich so bald wie möglich bei Ihnen.</p>
-                    <p className="hint" style={{ margin: "0", maxWidth: "36em" }}>Sie erhalten zusätzlich eine Bestätigung per E-Mail{v.doneBookingNote}.</p>
+                    <p className="hint" style={{ margin: "0", maxWidth: "36em" }}>Sie erhalten zusätzlich eine Eingangsbestätigung per E-Mail.{v.doneBookingNote}</p>
                     <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", marginTop: "10px" }}>
                       <button className="btn btn-navy" type="button" onClick={v.reset}>Neue Anfrage</button>
                       <Link className="btn btn-line" href="/">Zur Startseite</Link>

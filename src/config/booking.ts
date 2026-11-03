@@ -2,7 +2,7 @@
  * Appointment and intake settings.
  *
  * IMPORTANT: The opening hours below are ASSUMPTIONS that Randa Kale has not
- * confirmed yet. They only drive the demo calendar and are not published as
+ * confirmed yet. They only drive the appointment calendar and are not published as
  * opening hours anywhere on the website. Adjust them here once confirmed.
  */
 export const booking = {
@@ -29,8 +29,13 @@ export const booking = {
   minNoticeHours: 24,
 } as const;
 
-/** Upload rules for the (demo) document step. Files are never uploaded in demo mode. */
+/** Upload rules for the document step. */
 export const uploads = {
+  /**
+   * While `false`, step 4 only explains that documents can be sent later by e-mail and
+   * the form transmits no files. Turning it on needs a file storage first (see README).
+   */
+  enabled: false,
   maxFiles: 10,
   maxBytes: 10 * 1024 * 1024,
   extensions: ["pdf", "jpg", "jpeg", "png", "heic", "heif"],
@@ -39,8 +44,8 @@ export const uploads = {
 } as const;
 
 /**
- * Proposed data-retention values for the future backend (documentation only –
- * nothing is stored in demo mode). Must be confirmed before production.
+ * Proposed data-retention values for a future backend (documentation only –
+ * requests are sent by e-mail and not stored on the server). Must be confirmed before production.
  */
 export const retentionProposal = {
   resumeLinkTtlDays: 14,

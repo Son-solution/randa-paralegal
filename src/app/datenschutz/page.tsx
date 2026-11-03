@@ -78,6 +78,7 @@ export default function DatenschutzPage() {
           body: (
             <>
               <p style={pStyle}>Wenn Sie mich über das Anfrageformular, per E-Mail, Telefon oder WhatsApp kontaktieren, bearbeite ich Ihre Angaben und allfällige Dokumente, um Ihre Anfrage zu beantworten, einen Termin zu vereinbaren und Sie bei Ihrem Anliegen zu unterstützen.</p>
+              <p style={pStyle}>Angaben aus dem Anfrageformular werden verschlüsselt an den E-Mail-Versanddienst Resend (Resend, Inc., USA) übermittelt. Resend stellt mir Ihre Anfrage per E-Mail zu und sendet Ihnen eine Eingangsbestätigung. Dabei können Daten in die USA übermittelt werden. Auf dem Server der Website selbst werden Ihre Angaben nicht gespeichert.</p>
               <p style={pStyle}>Bitte senden Sie nur Unterlagen, die für Ihr Anliegen nötig sind.</p>
             </>
           ),

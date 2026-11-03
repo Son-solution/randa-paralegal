@@ -1,10 +1,10 @@
 /**
- * DEMO calendar logic.
+ * Calendar logic for the requested appointment ("Terminwunsch").
  *
- * Availability is simulated: "busy" slots are derived from a deterministic hash
- * of date and hour, so the calendar looks realistic without any server or
- * Google Calendar connection. Nothing is reserved. Working hours come from
- * src/config/booking.ts and are assumptions until confirmed.
+ * There is no Google Calendar connection: every slot within the working hours is
+ * offered, the chosen time is sent with the request and confirmed by Randa
+ * personally. Nothing is reserved. Working hours come from src/config/booking.ts
+ * and are assumptions until confirmed.
  */
 import { booking } from "@/config/booking";
 import type { SlotState } from "./constants";
@@ -16,21 +16,11 @@ export type Slot = { h: number; state: SlotState; disabled: boolean };
 
 export type DayInfo = { av: boolean; kind: "past" | "na" | "av"; reason: string };
 
-function hash(str: string): number {
-  let h = 2166136261;
-  for (let i = 0; i < str.length; i++) {
-    h ^= str.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return Math.abs(h);
-}
-
-/** Simulated existing booking at this hour (demo only). */
-export function busy(iso: string, h: number): boolean {
-  return hash(iso + ":" + h) % 3 === 0;
-}
-
-/** Each slot: free | busy (booked) | travel (in-person travel buffer) | past (within the minimum notice or over). */
+/**
+ * Each slot: free | past (within the minimum notice or over).
+ * `format` is unused until a real calendar (with travel time for in-person meetings) is connected.
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function slotsFor(iso: string, format: string): Slot[] {
   const now = zurichNow();
   const range = booking.hours[dow(iso)];
@@ -39,10 +29,7 @@ export function slotsFor(iso: string, format: string): Slot[] {
   const dayStart = daysBetween(now.iso, iso) * 1440 - (now.h * 60 + now.m);
   const out: Slot[] = [];
   for (let h = range[0]; h <= range[1]; h++) {
-    let st: SlotState = "free";
-    if (dayStart + h * 60 < booking.minNoticeHours * 60) st = "past";
-    else if (busy(iso, h)) st = "busy";
-    else if (format === "vorort" && (busy(iso, h - 1) || busy(iso, h + 1))) st = "travel";
+    const st: SlotState = dayStart + h * 60 < booking.minNoticeHours * 60 ? "past" : "free";
     out.push({ h, state: st, disabled: st !== "free" });
   }
   return out;
@@ -58,12 +45,12 @@ export function dayInfo(iso: string, format: string): DayInfo {
     // Every slot is inside the minimum notice period (e.g. today or tomorrow morning).
     if (slots.every((x) => x.state === "past"))
       return { av: false, kind: "na", reason: (iso === now.iso ? "heute, " : "") + "Termine nur mit " + booking.minNoticeHours + " Stunden Vorlauf" };
-    return { av: false, kind: "na", reason: "ausgebucht (Demo)" };
+    return { av: false, kind: "na", reason: "keine Zeiten verfügbar" };
   }
-  return { av: true, kind: "av", reason: "Demo-Zeiten verfügbar" };
+  return { av: true, kind: "av", reason: "Zeiten verfügbar" };
 }
 
-/** True while the chosen demo slot ("HH:00") on `iso` can still be booked. */
+/** True while the chosen slot ("HH:00") on `iso` can still be booked. */
 export function isSlotFree(iso: string, time: string, format: string): boolean {
   if (!iso || !time) return false;
   const h = parseInt(time, 10);

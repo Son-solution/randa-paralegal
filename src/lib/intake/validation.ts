@@ -31,7 +31,7 @@ export function validPhone(v: string): boolean {
 const anyTrue = (m: Record<string, boolean>) => Object.keys(m).some((k) => m[k]);
 
 /** Request on behalf of a school, authority or institution (offered only together with Dolmetschen). */
-export function asInstitution(s: FormState): boolean {
+export function asInstitution(s: Pick<FormState, "services" | "c">): boolean {
   return s.services.interp && s.c.fuer === "institution";
 }
 
@@ -93,7 +93,7 @@ export function validate(step: number, s: FormState): FieldError[] {
     if (!s.b.date || !s.b.time) e.push({ k: "b_slot", id: "cal-grid", msg: "Bitte wählen Sie einen Tag und eine Uhrzeit – oder wählen Sie «Anfrage ohne Termin»." });
     // The chosen slot can expire (minimum notice) or no longer fit after the format was changed.
     else if (s.b.format && !isSlotFree(s.b.date, s.b.time, s.b.format))
-      e.push({ k: "b_slot", id: "cal-grid", msg: "Die gewählte Demo-Zeit ist nicht mehr verfügbar. Bitte wählen Sie einen anderen Tag oder eine andere Uhrzeit." });
+      e.push({ k: "b_slot", id: "cal-grid", msg: "Die gewählte Zeit ist nicht mehr verfügbar. Bitte wählen Sie einen anderen Tag oder eine andere Uhrzeit." });
   }
   if (step === 6) {
     if (!s.consent.privacy) e.push({ k: "consent_privacy", id: "f-consent-privacy", msg: "Bitte bestätigen Sie die Kenntnisnahme der Datenschutzerklärung." });
