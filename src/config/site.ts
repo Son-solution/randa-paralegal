@@ -33,6 +33,8 @@ export const site = {
   /** Contact details – leave `null` until confirmed. */
   contact: {
     phone: "+41 78 625 12 42" as string | null,
+    /** WhatsApp number (same as the phone number); `null` hides all WhatsApp buttons. */
+    whatsapp: "+41 78 625 12 42" as string | null,
     email: "info@randa-paralegalservices.ch" as string | null,
     /** Postal address for the Impressum, e.g. ["Musterstrasse 1", "8000 Zürich"]. */
     address: ["Schaffhauserstrasse 128", "8152 Glattbrugg"] as string[] | null,
@@ -86,4 +88,10 @@ export const site = {
 export function phoneHref(): string | null {
   const n = site.contact.phone;
   return n ? `tel:${n.replace(/[^\d+]/g, "")}` : null;
+}
+
+/** Builds a wa.me link once a WhatsApp number is configured. */
+export function whatsappHref(): string | null {
+  const n = site.contact.whatsapp;
+  return n ? `https://wa.me/${n.replace(/[^\d]/g, "")}` : null;
 }

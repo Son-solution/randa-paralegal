@@ -5,6 +5,7 @@ import Header from "./Header";
 import PrototypeBar from "./PrototypeBar";
 import ScrollReveal from "./ScrollReveal";
 import CallButton from "./CallButton";
+import WhatsAppButton from "./WhatsAppButton";
 
 const pageClass: Record<PageKey, string> = {
   home: "page-home",
@@ -22,13 +23,13 @@ const pageClass: Record<PageKey, string> = {
 type Props = {
   page: PageKey;
   children: ReactNode;
-  /** The floating call button is hidden on the form page so it never covers form controls. */
+  /** The floating WhatsApp and call buttons are hidden on the form page so they never cover form controls. */
   showCallButton?: boolean;
 };
 
 /**
  * Common frame for every page: prototype notice, sticky header, content, footer and
- * the floating call button. The `.page-*` wrapper scopes the few page-specific
+ * the floating WhatsApp and call buttons. The `.page-*` wrapper scopes the few page-specific
  * styles in globals.css; `.motion` enables the (reduced-motion aware) animations.
  */
 export default function SiteShell({ page, children, showCallButton = true }: Props) {
@@ -50,7 +51,12 @@ export default function SiteShell({ page, children, showCallButton = true }: Pro
         <Header current={page} />
         {children}
         <Footer />
-        {showCallButton ? <CallButton /> : null}
+        {showCallButton ? (
+          <>
+            <WhatsAppButton />
+            <CallButton />
+          </>
+        ) : null}
         <ScrollReveal />
       </div>
     </div>

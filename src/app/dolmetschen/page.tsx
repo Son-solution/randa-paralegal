@@ -6,6 +6,7 @@ import SiteShell from "@/components/layout/SiteShell";
 import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import ServiceIllustration from "@/components/ui/ServiceIllustration";
 import CallCta from "@/components/ui/CallCta";
+import WhatsAppCta from "@/components/ui/WhatsAppCta";
 import { site } from "@/config/site";
 import { baseOpenGraph } from "@/lib/seo";
 
@@ -254,6 +255,7 @@ export default function InterpretingPage() {
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "14px", marginTop: "10px" }}>
               <Link className="btn btn-navy" href="/anfrage" aria-describedby="cta-proto">Anfrage starten <span className="arr" aria-hidden="true">→</span></Link>
               <CallCta className="btn btn-line" describedBy="cta-proto" />
+              <WhatsAppCta className="btn btn-line" describedBy="cta-proto" />
             </div>
             {site.showDemoNotices ? (
               <p id="cta-proto" style={{ margin: "0", fontSize: "12px", color: "#4A5563" }}>Prototyp: Das Anfrageformular ist eine Demo ohne Datenübermittlung.</p>
