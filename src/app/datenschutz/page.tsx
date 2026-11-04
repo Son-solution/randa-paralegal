@@ -94,6 +94,15 @@ export default function DatenschutzPage() {
           ),
         },
         {
+          title: "Google Maps",
+          body: (
+            <>
+              <p style={pStyle}>Auf der Kontaktseite kann eine Karte von Google Maps (Google Ireland Limited bzw. Google LLC, USA) angezeigt werden. Die Karte wird erst geladen, wenn Sie auf «Karte anzeigen» klicken. Erst dann übermittelt Ihr Browser Daten wie Ihre IP-Adresse an Google, unter Umständen auch in die USA; Google kann dabei Cookies setzen.</p>
+              <p style={pStyle}>Der Link «Route auf Google Maps planen» öffnet Google Maps in einem neuen Fenster. Für die Datenbearbeitung dort gelten die Datenschutzbestimmungen von Google.</p>
+            </>
+          ),
+        },
+        {
           title: "Weitergabe an Dritte",
           body: <p style={pStyle}>Ich gebe Ihre Daten nicht an Dritte weiter und verkaufe sie nicht. Eine Weitergabe, zum Beispiel an eine Behörde, eine Schule, einen Anwalt oder einen Mediator, erfolgt nur, wenn Sie dies ausdrücklich wünschen oder wenn eine gesetzliche Pflicht besteht.</p>,
         },

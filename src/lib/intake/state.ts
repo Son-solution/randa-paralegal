@@ -14,7 +14,7 @@ export type FormData = {
   u: { level: string; frist: string; grund: string };
   files: FileMeta[];
   b: { mode: string; format: string; date: string; time: string; calY: number; calM: number; calFocus: string };
-  consent: { privacy: boolean; self: boolean; wa: boolean };
+  consent: { privacy: boolean; agb: boolean; self: boolean; wa: boolean };
 };
 
 export type FormState = FormData & {
@@ -70,7 +70,7 @@ export function initialState(): FormState {
     slotsLoading: false,
     svcNotice: "",
     returnTo6: false,
-    consent: { privacy: false, self: false, wa: false },
+    consent: { privacy: false, agb: false, self: false, wa: false },
     submitting: false,
     submitError: "",
     submitted: false,

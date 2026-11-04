@@ -7,12 +7,12 @@ export type ErrKey =
   | "services" | "c_institution" | "c_vorname" | "c_nachname" | "c_email" | "c_telefon" | "c_alter"
   | "a_aufgaben" | "a_situation" | "a_fristDatum" | "y_situation" | "y_unterstuetzung"
   | "i_art" | "i_richtung" | "i_datum" | "i_modus" | "u_frist" | "b_format" | "b_slot"
-  | "consent_privacy" | "consent_self" | "consent_wa";
+  | "consent_privacy" | "consent_agb" | "consent_self" | "consent_wa";
 
 export const ERR_KEYS: ErrKey[] = [
   "services", "c_institution", "c_vorname", "c_nachname", "c_email", "c_telefon", "c_alter", "a_aufgaben", "a_situation", "a_fristDatum",
   "y_situation", "y_unterstuetzung", "i_art", "i_richtung", "i_datum", "i_modus", "u_frist", "b_format", "b_slot",
-  "consent_privacy", "consent_self", "consent_wa",
+  "consent_privacy", "consent_agb", "consent_self", "consent_wa",
 ];
 
 /** k = field key, id = element to focus, msg = message shown in the error summary. */
@@ -97,6 +97,7 @@ export function validate(step: number, s: FormState): FieldError[] {
   }
   if (step === 6) {
     if (!s.consent.privacy) e.push({ k: "consent_privacy", id: "f-consent-privacy", msg: "Bitte bestätigen Sie die Kenntnisnahme der Datenschutzerklärung." });
+    if (!s.consent.agb) e.push({ k: "consent_agb", id: "f-consent-agb", msg: "Bitte bestätigen Sie, dass Sie die AGB und die Stornierungsbedingungen gelesen haben und akzeptieren." });
     if (!s.consent.self)
       e.push({
         k: "consent_self",

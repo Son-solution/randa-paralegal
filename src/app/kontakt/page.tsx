@@ -5,11 +5,13 @@ import SiteShell from "@/components/layout/SiteShell";
 import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import ContactValue from "@/components/ui/ContactValue";
 import CallCta from "@/components/ui/CallCta";
+import MapEmbed from "@/components/ui/MapEmbed";
 import { routes } from "@/config/navigation";
 import { site } from "@/config/site";
 import { baseOpenGraph } from "@/lib/seo";
 
 // Only confirmed facts: phone, e-mail and address show "[folgt]" until set in src/config/site.ts.
+// Anfahrt and the Google Maps links come from the client briefing.
 export const metadata: Metadata = {
   title: "Kontakt",
   description: "Kontakt zu Randa Paralegal Services in Zürich: Online-Anfrage mit Terminwahl, Telefon und E-Mail. Termine online über Google Meet oder persönlich in Zürich und Umgebung.",
@@ -17,7 +19,12 @@ export const metadata: Metadata = {
   openGraph: { ...baseOpenGraph, url: routes.contact, title: "Kontakt" },
 };
 
+const subStyle = { margin: "0 0 6px", fontSize: "16px", fontWeight: 600, color: "#163A5F" } as const;
+const textStyle = { margin: 0, fontSize: "15.5px", color: "#2B3644" } as const;
+
 export default function ContactPage() {
+  const address = site.contact.address;
+  const routeHref = address ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address.join(", "))}` : null;
   return (
     <SiteShell page="contact">
       <main>
@@ -64,6 +71,10 @@ export default function ContactPage() {
                     <dt>Termine</dt>
                     <dd>Online über Google Meet oder persönlich in Zürich und Umgebung. Den genauen Treffpunkt vereinbaren wir individuell nach Ihrer Anfrage.</dd>
                   </div>
+                  <div className="kv">
+                    <dt>Preise</dt>
+                    <dd>Nach Absprache. Kostenfreie Absage bis 24 Stunden vor dem Termin – siehe <Link href={`${routes.legal}#stornierung`} style={{ color: "#8A6508" }}>AGB</Link>.</dd>
+                  </div>
                 </dl>
               </div>
             </div>
@@ -77,12 +88,27 @@ export default function ContactPage() {
             </div>
             <div className="rv" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <div>
-                <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: 600, color: "#163A5F" }}>Adresse</h3>
-                <p style={{ margin: 0, fontSize: "15.5px", color: "#2B3644" }}>{site.contact.address ? site.contact.address.map((line, i) => <Fragment key={line}>{i > 0 ? <br /> : null}{line}</Fragment>) : <span style={{ color: "#8A6508" }}>[Adresse folgt]</span>}</p>
+                <h3 style={subStyle}>Adresse</h3>
+                <p style={textStyle}>{address ? address.map((line, i) => <Fragment key={line}>{i > 0 ? <br /> : null}{line}</Fragment>) : <span style={{ color: "#8A6508" }}>[Adresse folgt]</span>}</p>
               </div>
-              <div>
-                <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: 600, color: "#163A5F" }}>Anfahrt</h3>
-                <p style={{ margin: 0, fontSize: "15.5px", color: "#2B3644" }}><span style={{ color: "#8A6508" }}>[Anfahrtsbeschreibung folgt]</span></p>
+              {address && routeHref ? (
+                <>
+                  <div>
+                    <a className="btn btn-navy" href={routeHref} target="_blank" rel="noopener noreferrer" style={{ whiteSpace: "normal", textAlign: "center" }}>Route auf Google Maps planen <span className="arr" aria-hidden="true">→</span></a>
+                  </div>
+                  <MapEmbed query={address.join(", ")} />
+                </>
+              ) : null}
+              <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                <h3 style={{ ...subStyle, margin: 0 }}>Anfahrt</h3>
+                <div>
+                  <h4 style={{ ...subStyle, fontSize: "15px" }}>Öffentlicher Verkehr (ÖV)</h4>
+                  <p style={textStyle}>S-Bahn / Tram: Bis Bahnhof Glattbrugg (S9 / S15) oder Haltestelle Glattbrugg, Post (Tram 10 &amp; 12 / Bus 759 &amp; 768). Von dort sind es nur wenige Gehminuten an der Schaffhauserstrasse.</p>
+                </div>
+                <div>
+                  <h4 style={{ ...subStyle, fontSize: "15px" }}>Mit dem Auto</h4>
+                  <p style={textStyle}>Gute Anbindung über die Autobahn A51 (Ausfahrt Opfikon/Glattbrugg). Öffentliche Parkplätze (Blaue Zone / gebührenpflichtige Parkplätze) befinden sich in der näheren Umgebung.</p>
+                </div>
               </div>
             </div>
           </div>

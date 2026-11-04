@@ -568,9 +568,9 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
     const sum = s.step === 6 ? buildSummary(s) : null;
 
     const cs = {
-      privacy: s.consent.privacy, self: s.consent.self, wa: s.consent.wa,
-      privacyCls: s.consent.privacy ? "on" : "", selfCls: s.consent.self ? "on" : "", waCls: s.consent.wa ? "on" : "",
-      togglePrivacy: () => this.toggleConsent("privacy"), toggleSelf: () => this.toggleConsent("self"), toggleWa: () => this.toggleConsent("wa"),
+      privacy: s.consent.privacy, agb: s.consent.agb, self: s.consent.self, wa: s.consent.wa,
+      privacyCls: s.consent.privacy ? "on" : "", agbCls: s.consent.agb ? "on" : "", selfCls: s.consent.self ? "on" : "", waCls: s.consent.wa ? "on" : "",
+      togglePrivacy: () => this.toggleConsent("privacy"), toggleAgb: () => this.toggleConsent("agb"), toggleSelf: () => this.toggleConsent("self"), toggleWa: () => this.toggleConsent("wa"),
     };
 
     const go = (n: number) => () => this.goTo(n, { fromReview: true });
@@ -1123,7 +1123,7 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                                     <circle cx="12" cy="12" r="9"></circle>
                                     <path d="M12 8v5M12 16v.5"></path>
                                   </svg>
-                                  <div><b>Vorläufiger Hinweis – Regelung noch nicht festgelegt.</b> Sie haben angegeben, unter 18 Jahre alt zu sein. Ob und in welcher Form für Jugendliche unter 18 Jahren eine Einwilligung der Erziehungsberechtigten nötig ist, wird derzeit von Randa Kale festgelegt. Sie können die Anfrage trotzdem vollständig ausfüllen.</div>
+                                  <div><b>Hinweis für Jugendliche unter 18 Jahren.</b> Du kannst die Anfrage gerne selbst stellen. Da du noch minderjährig bist, ist für den Start des Coachings die Zustimmung deiner Erziehungsberechtigten erforderlich, die wir vor dem ersten Termin unkompliziert einholen.</div>
                                 </div>
                                 </>
                               ) : null}
@@ -1775,6 +1775,16 @@ export default class IntakeForm extends Component<Record<string, never>, FormSta
                             {v.H.consent_privacy ? (
                               <>
                               <p id="e-consent_privacy" className="err" style={{ margin: "0" }}>{v.E.consent_privacy}</p>
+                              </>
+                            ) : null}
+                            {/* The links open in a new tab: the form keeps its answers in memory only. */}
+                            <label className={`chk ${v.cs.agbCls}`}>
+                              <input type="checkbox" id="f-consent-agb" checked={v.cs.agb} onChange={v.cs.toggleAgb} aria-invalid={v.I.consent_agb} aria-describedby={v.D.consent_agb} />
+                              <span className="t">Ich habe die <Link href="/rechtliche-hinweise" target="_blank" rel="noopener" style={{ color: "#8A6508" }}>AGB</Link> und die <Link href="/rechtliche-hinweise#stornierung" target="_blank" rel="noopener" style={{ color: "#8A6508" }}>Stornierungsbedingungen</Link> (kostenfreie Absage bis 24h vor Termin) gelesen und akzeptiert. *</span>
+                            </label>
+                            {v.H.consent_agb ? (
+                              <>
+                              <p id="e-consent_agb" className="err" style={{ margin: "0" }}>{v.E.consent_agb}</p>
                               </>
                             ) : null}
                             <label className={`chk ${v.cs.selfCls}`}>

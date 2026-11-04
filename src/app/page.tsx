@@ -226,7 +226,7 @@ export default function HomePage() {
               <h2 id="about-title" className="serif" style={{ margin: "0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>Eine Ansprechperson für Sprache, Verwaltung und Zukunftsfragen.</h2>
               <p style={{ margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", textWrap: "pretty" }}>Mein Name ist Randa Kale. Mit Randa Paralegal Services begleite ich Privatpersonen, Familien und Jugendliche im Raum Zürich – verständlich, nahbar und strukturiert.</p>
               <p style={{ margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", textWrap: "pretty" }}>Mein Angebot verbindet administrative Unterstützung, Jugendcoaching und Sprachmittlung auf Arabisch und Aramäisch aus einer Hand. So erklären Sie Ihr Anliegen nur einmal – und behalten den Überblick.</p>
-              <p style={{ margin: "0", padding: "14px 18px", border: "1px dashed #B9A06A", fontSize: "13.5px", color: "#5A4A20", background: "rgba(255,255,255,.5)" }}>[Kurzbiografie, Ausbildung und Qualifikationen von Randa Kale folgen.]</p>
+              <p style={{ margin: "0", fontSize: "17px", fontWeight: "300", color: "#2B3644", textWrap: "pretty" }}>Als ausgebildete Juristin (Bachelor of Law, Uni Aleppo, Syrien), zertifizierte Paralegal (CAS FH, Kalaidos Law School) und ausgebildete Sachbearbeiterin Immobilienbewirtschaftung (KV Business School) verbinde ich fundiertes rechtliches Fachwissen mit umfassender Verwaltungspraxis. Dank meiner beruflichen Erfahrung als Jobcoach sowie meines langjährigen ehrenamtlichen Engagements, insbesondere beim Dolmetschen (Arabisch, Aramäisch) in Arztpraxen und Spitälern sowie bei Behörden- und Migrationsangelegenheiten, kenne ich die Hürden des Alltags genau. Mit meiner Mehrsprachigkeit und meiner strukturierten, empathischen Art begleite ich Sie im Raum Zürich zuverlässig durch administrative, sprachliche und berufliche Prozesse.</p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
                 <span style={{ fontSize: "12px", fontWeight: "600", letterSpacing: ".12em", textTransform: "uppercase", color: "#163A5F", border: "1px solid rgba(22,58,95,.3)", padding: "8px 14px" }}>Deutsch</span>
                 <span style={{ fontSize: "12px", fontWeight: "600", letterSpacing: ".12em", textTransform: "uppercase", color: "#163A5F", border: "1px solid rgba(22,58,95,.3)", padding: "8px 14px" }}>Arabisch</span>
@@ -351,6 +351,13 @@ export default function HomePage() {
               </details>
               <details style={{ borderBottom: "1px solid #D9CFBB" }}>
                 <summary style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "24px", padding: "26px 0", minHeight: "44px" }}>
+                  <span className="q serif" style={{ fontSize: "24px", lineHeight: "1.25", fontWeight: "600", color: "#163A5F", transition: "color .3s" }}>Was kosten Ihre Dienstleistungen?</span>
+                  <span className="pm" aria-hidden="true" style={{ fontSize: "26px", color: "#8A6508", lineHeight: "1", fontWeight: "300" }}>+</span>
+                </summary>
+                <div className="ans" style={{ padding: "0 48px 28px 0", fontSize: "15.5px", color: "#2B3644" }}>Die Preise richten sich nach Ihrem Anliegen und werden nach Absprache festgelegt. Bezahlt wird per Twint, Banküberweisung oder auf Rechnung. Termine können bis 24 Stunden vorher kostenlos abgesagt oder verschoben werden – Einzelheiten regeln die <Link href="/rechtliche-hinweise#zahlung" style={{ color: "#8A6508" }}>AGB</Link>.</div>
+              </details>
+              <details style={{ borderBottom: "1px solid #D9CFBB" }}>
+                <summary style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "24px", padding: "26px 0", minHeight: "44px" }}>
                   <span className="q serif" style={{ fontSize: "24px", lineHeight: "1.25", fontWeight: "600", color: "#163A5F", transition: "color .3s" }}>In welchen Sprachen kann ich mit Ihnen sprechen?</span>
                   <span className="pm" aria-hidden="true" style={{ fontSize: "26px", color: "#8A6508", lineHeight: "1", fontWeight: "300" }}>+</span>
                 </summary>
@@ -361,7 +368,7 @@ export default function HomePage() {
                   <span className="q serif" style={{ fontSize: "24px", lineHeight: "1.25", fontWeight: "600", color: "#163A5F", transition: "color .3s" }}>Ich bin noch nicht 18 Jahre alt. Kann ich mich selbst für das Jugendcoaching anmelden?</span>
                   <span className="pm" aria-hidden="true" style={{ fontSize: "26px", color: "#8A6508", lineHeight: "1", fontWeight: "300" }}>+</span>
                 </summary>
-                <div className="ans" style={{ padding: "0 48px 28px 0", fontSize: "15.5px", color: "#2B3644" }}>Ja, Sie können die Anfrage selbst stellen. Ob und in welcher Form für Jugendliche unter 18 Jahren die Einwilligung einer erziehungsberechtigten Person nötig ist, wird derzeit festgelegt (vorläufiger Hinweis).</div>
+                <div className="ans" style={{ padding: "0 48px 28px 0", fontSize: "15.5px", color: "#2B3644" }}>Ja, Sie können die Anfrage gerne selbst stellen. Für den Start des Coachings ist die Zustimmung Ihrer Erziehungsberechtigten erforderlich – diese holen wir vor dem ersten Termin unkompliziert ein.</div>
               </details>
               <details style={{ borderBottom: "1px solid #D9CFBB" }}>
                 <summary style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "24px", padding: "26px 0", minHeight: "44px" }}>

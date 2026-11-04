@@ -255,9 +255,9 @@ export default function YouthCoachingPage() {
               <div aria-hidden="true" style={{ position: "absolute", inset: "12px", border: "1px solid rgba(212,160,23,.25)", pointerEvents: "none" }}></div>
               <div style={{ position: "relative" }}>
                 <div className="eyebrow" style={{ color: "#D4A017", fontSize: "11px" }}>Unter 18 Jahren</div>
-                <h3 className="serif" style={{ margin: "10px 0 0", fontSize: "30px", fontWeight: "500", lineHeight: "1.15", color: "#FAF9F5" }}>Einwilligung der Erziehungsberechtigten – in Klärung</h3>
+                <h3 className="serif" style={{ margin: "10px 0 0", fontSize: "30px", fontWeight: "500", lineHeight: "1.15", color: "#FAF9F5" }}>Zustimmung der Erziehungsberechtigten</h3>
               </div>
-              <p style={{ margin: "0", fontSize: "15.5px", color: "#DCE3EB", position: "relative" }}><b style={{ color: "#D4A017" }}>Vorläufiger Hinweis.</b> Sie können die Anfrage selbst stellen. Ob und in welcher Form für Jugendliche unter 18 Jahren eine Einwilligung der Erziehungsberechtigten nötig ist, wird derzeit festgelegt.</p>
+              <p style={{ margin: "0", fontSize: "15.5px", color: "#DCE3EB", position: "relative" }}>Du kannst die Anfrage gerne selbst stellen. Da du noch minderjährig bist, ist für den Start des Coachings die Zustimmung deiner Erziehungsberechtigten erforderlich, die wir vor dem ersten Termin unkompliziert einholen.</p>
             </div>
           </div>
         </section>
@@ -294,7 +294,7 @@ export default function YouthCoachingPage() {
                   <span className="q serif" style={{ fontSize: "24px", lineHeight: "1.25", fontWeight: "600", color: "#163A5F", transition: "color .3s" }}>Ich bin noch nicht 18 Jahre alt. Was muss ich beachten?</span>
                   <span className="pm" aria-hidden="true" style={{ fontSize: "26px", color: "#8A6508", lineHeight: "1", fontWeight: "300" }}>+</span>
                 </summary>
-                <div className="ans" style={{ padding: "0 48px 26px 0", fontSize: "15.5px", color: "#2B3644" }}>Sie stellen die Anfrage selbst. Die Regelung zur Einwilligung der Erziehungsberechtigten wird derzeit festgelegt (vorläufiger Hinweis).</div>
+                <div className="ans" style={{ padding: "0 48px 26px 0", fontSize: "15.5px", color: "#2B3644" }}>Sie können die Anfrage gerne selbst stellen. Für den Start des Coachings ist die Zustimmung Ihrer Erziehungsberechtigten erforderlich – diese holen wir vor dem ersten Termin unkompliziert ein.</div>
               </details>
             </div>
           </div>

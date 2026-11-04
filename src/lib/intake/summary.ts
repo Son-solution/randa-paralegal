@@ -51,7 +51,7 @@ export function buildSummary(s: FormData): Summary {
   const youth = !hasYouth ? [] : rows([
     ["Aktuelle Situation", s.y.situation], ["Unterstützung", joinChecked(YOUTH_SUP, s.y.unterstuetzung)], ["Interessen und Ziele", s.y.interessen],
     ["Herausforderungen", s.y.herausforderungen], ["Form des Coachings", labelOf(YOUTH_ART, s.y.art)], ["Sprache", s.y.sprache],
-    ["Unter 18 Jahre", under18 ? "Ja – vorläufiger Hinweis zur Einwilligung beachten" : s.c.alter ? "Nein" : ""],
+    ["Unter 18 Jahre", under18 ? "Ja – Zustimmung der Erziehungsberechtigten vor dem ersten Termin einholen" : s.c.alter ? "Nein" : ""],
   ]);
   const interp = !s.services.interp ? [] : rows([
     ["Art", labelOf(INT_ART, s.i.art)], ["Sprachrichtung", labelOf(INT_DIR, s.i.richtung) + (s.i.richtung ? " (vorläufig)" : "")], ["Variante / Dialekt", s.i.variante],
