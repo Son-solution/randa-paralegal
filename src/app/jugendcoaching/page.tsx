@@ -88,10 +88,6 @@ export default function YouthCoachingPage() {
                 <p style={{ margin: "0", fontSize: "15.5px", color: "#2B3644" }}>Sie stehen vor der Berufswahl und möchten herausfinden, welcher Weg zu Ihnen passt.</p>
               </div>
               <div className="rv" style={{ padding: "30px 28px 34px 0", display: "flex", flexDirection: "column", gap: "10px" }}>
-                <span className="serif" style={{ fontSize: "20px", color: "#8A6508", fontStyle: "italic" }}>Neu in der Schweiz</span>
-                <p style={{ margin: "0", fontSize: "15.5px", color: "#2B3644" }}>Sie möchten das Schweizer Bildungs- und Lehrstellensystem verstehen und sich im Alltag orientieren.</p>
-              </div>
-              <div className="rv" style={{ padding: "30px 28px 34px 0", display: "flex", flexDirection: "column", gap: "10px" }}>
                 <span className="serif" style={{ fontSize: "20px", color: "#8A6508", fontStyle: "italic" }}>Auf Lehrstellensuche</span>
                 <p style={{ margin: "0", fontSize: "15.5px", color: "#2B3644" }}>Sie suchen eine Lehrstelle, ein Praktikum oder eine Schnupperlehre und brauchen Unterstützung bei der Bewerbung.</p>
               </div>

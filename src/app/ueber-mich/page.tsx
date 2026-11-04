@@ -55,12 +55,13 @@ export default function AboutPage() {
                 <p className="in serif" style={{ "--d": ".6s", margin: "0", fontSize: "clamp(24px, 2.4vw, 32px)", lineHeight: "1.3", color: "#163A5F", fontWeight: "500", maxWidth: "22em" } as CSSProperties}>Ihre Bridge-Builderin zwischen Sprachen, Behörden und Ihrer beruflichen Zukunft.</p>
               </div>
               <div className="in" style={{ "--d": ".4s", position: "relative" } as CSSProperties}>
-                <div role="img" aria-label="Platzhalter für ein Porträt von Randa Kale" style={{ aspectRatio: "4 / 5", background: "#163A5F", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-                  <div aria-hidden="true" style={{ position: "absolute", inset: "18px", border: "1px solid rgba(212,160,23,.55)" }}></div>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px", padding: "32px" }}>
-                    <span className="serif" style={{ fontSize: "76px", lineHeight: "1", color: "#D4A017", fontWeight: "500", letterSpacing: ".06em" }}>RK</span>
-                    <span className="eyebrow" style={{ color: "#E9E3D6", fontSize: "11px" }}>Porträt Randa Kale</span>
-                    <span style={{ fontSize: "13px", color: "#C9D3DE" }}>[Professionelles Porträtfoto folgt]</span>
+                <div style={{ aspectRatio: "4 / 5", background: "#163A5F", position: "relative", overflow: "hidden", boxShadow: "0 40px 80px -40px rgba(14,26,40,.55)" }}>
+                  <Image src="/images/randa-portrait.jpg" alt="Porträt von Randa Kale" fill priority sizes="(max-width: 980px) 100vw, 45vw" style={{ objectFit: "cover", objectPosition: "50% 20%" }} />
+                  <div aria-hidden="true" style={{ position: "absolute", inset: "18px", border: "1px solid rgba(212,160,23,.6)", pointerEvents: "none" }}></div>
+                  <div aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "34%", background: "linear-gradient(to top, rgba(14,26,40,.72), rgba(14,26,40,0))", pointerEvents: "none" }}></div>
+                  <div style={{ position: "absolute", left: "38px", right: "38px", bottom: "34px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                    <span className="serif" style={{ fontSize: "clamp(24px, 2.4vw, 30px)", lineHeight: "1.1", color: "#FAF9F5", fontWeight: "500" }}>Randa Kale</span>
+                    <span className="eyebrow" style={{ color: "#D4A017", fontSize: "11px" }}>Juristin · Paralegal (CAS FH)</span>
                   </div>
                 </div>
                 <div className="pframe" aria-hidden="true" style={{ position: "absolute", top: "-18px", right: "-18px", width: "44%", height: "40%", borderTop: "1px solid #D4A017", borderRight: "1px solid #D4A017", pointerEvents: "none" }}></div>
@@ -124,6 +125,22 @@ export default function AboutPage() {
                 <li><strong>Bildungssystem &amp; Arbeitsmarkt:</strong> Verständliche Vermittlung des Schweizer Berufsbildungssystems, Erklärung von Arbeitsmarktanforderungen und Empfehlung von BIZ-Potenzialabklärungen oder INVOL.</li>
                 <li><strong>Vermittlung von Anschlusslösungen:</strong> Erfolgreiche Suche nach Lehrstellen und praktischen Ausbildungen (PRA) sowie Zusammenarbeit mit Sozialdiensten.</li>
                 <li><strong>Individuelle Förderung:</strong> Gezielte Unterstützung von Jugendlichen mit Lernschwierigkeiten oder individuellen Herausforderungen durch ein strukturiertes, motivierendes Konzept.</li>
+              </ul>
+              <h3 className="serif" style={{ margin: "24px 0 0", fontSize: "28px", fontWeight: "600", color: "#163A5F" }}>Weitere berufliche Stationen</h3>
+              <ul style={{ margin: "0", padding: "0", listStyle: "none", fontSize: "15.5px", color: "#2B3644", borderTop: "1px solid #E4DCCB" }}>
+                {[
+                  ["Sachbearbeiterin Unternehmensarchiv", "AXA Versicherungen AG, Winterthur"],
+                  ["Assistant in der Liegenschaftsverwaltung / Property Management", "ISS Facility Services AG"],
+                  ["Sachbearbeiterin Archivierung und Immobilien", "ewz, Zürich"],
+                  ["Betreuerin", "AOZ – Durchgangszentrum"],
+                  ["Praktikum Rechtsauskunft", "Anwaltskollektiv, Zürich"],
+                  ["Rechtsanwältin & juristische Praxis", "Syrien"],
+                ].map(([role, place]) => (
+                  <li key={role} style={{ display: "flex", flexDirection: "column", gap: "2px", padding: "14px 0", borderBottom: "1px solid #E4DCCB" }}>
+                    <strong style={{ fontWeight: 600, color: "#163A5F" }}>{role}</strong>
+                    <span style={{ fontSize: "14.5px", color: "#4A5563" }}>{place}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

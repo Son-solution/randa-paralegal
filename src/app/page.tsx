@@ -213,12 +213,13 @@ export default function HomePage() {
         <section id="ueber-mich" aria-labelledby="about-title" style={{ background: "#F3EEE4", padding: "clamp(80px, 10vw, 140px) 0" }}>
           <div className="wrap split" style={{ alignItems: "center" }}>
             <div className="rv" style={{ position: "relative" }}>
-              <div role="img" aria-label="Platzhalter für ein Porträt von Randa Kale" style={{ aspectRatio: "4 / 5", background: "#163A5F", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-                <div aria-hidden="true" style={{ position: "absolute", inset: "16px", border: "1px solid rgba(212,160,23,.55)" }}></div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px", padding: "32px" }}>
-                  <span className="serif" style={{ fontSize: "64px", lineHeight: "1", color: "#D4A017", fontWeight: "500", letterSpacing: ".06em" }}>RK</span>
-                  <span className="eyebrow" style={{ color: "#E9E3D6", fontSize: "11px" }}>Porträt Randa Kale</span>
-                  <span style={{ fontSize: "13px", color: "#C9D3DE" }}>[Foto folgt]</span>
+              <div style={{ aspectRatio: "4 / 5", background: "#163A5F", position: "relative", overflow: "hidden", boxShadow: "0 40px 80px -40px rgba(14,26,40,.5)" }}>
+                <Image src="/images/randa-portrait-2.jpg" alt="Porträt von Randa Kale" fill sizes="(max-width: 980px) 100vw, 45vw" style={{ objectFit: "cover", objectPosition: "50% 25%" }} />
+                <div aria-hidden="true" style={{ position: "absolute", inset: "16px", border: "1px solid rgba(212,160,23,.6)", pointerEvents: "none" }}></div>
+                <div aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "30%", background: "linear-gradient(to top, rgba(14,26,40,.7), rgba(14,26,40,0))", pointerEvents: "none" }}></div>
+                <div style={{ position: "absolute", left: "34px", right: "34px", bottom: "30px", display: "flex", flexDirection: "column", gap: "6px" }}>
+                  <span className="serif" style={{ fontSize: "26px", lineHeight: "1.1", color: "#FAF9F5", fontWeight: "500" }}>Randa Kale</span>
+                  <span className="eyebrow" style={{ color: "#D4A017", fontSize: "11px" }}>Randa Paralegal Services</span>
                 </div>
               </div>
             </div>
