@@ -35,7 +35,7 @@ export const site = {
     phone: "+41 78 625 12 42" as string | null,
     email: "info@randa-paralegalservices.ch" as string | null,
     /** Postal address for the Impressum, e.g. ["Musterstrasse 1", "8000 Zürich"]. */
-    address: null as string[] | null,
+    address: ["Schaffhauserstrasse 128", "8152 Glattbrugg"] as string[] | null,
   },
 
   /** UID (Unternehmens-Identifikationsnummer), e.g. "CHE-123.456.789" – only if registered. */

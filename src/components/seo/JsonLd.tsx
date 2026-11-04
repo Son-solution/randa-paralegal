@@ -2,8 +2,8 @@ import { site } from "@/config/site";
 
 /**
  * Structured data for search engines. Only confirmed facts are included:
- * no street address, phone, opening hours or prices until they are confirmed
- * in src/config/site.ts.
+ * phone, e-mail and address only once they are set in src/config/site.ts,
+ * no opening hours or prices.
  */
 export default function JsonLd({ page }: { page: "home" }) {
   const data: Record<string, unknown> = {
@@ -21,6 +21,17 @@ export default function JsonLd({ page }: { page: "home" }) {
   };
   if (site.contact.phone) data.telephone = site.contact.phone;
   if (site.contact.email) data.email = site.contact.email;
+  if (site.contact.address) {
+    // Expects ["Street 1", "8000 City"].
+    const [street, cityLine = ""] = site.contact.address;
+    const m = /^(\d{4})\s+(.+)$/.exec(cityLine.trim());
+    data.address = {
+      "@type": "PostalAddress",
+      streetAddress: street,
+      ...(m ? { postalCode: m[1], addressLocality: m[2] } : { addressLocality: cityLine }),
+      addressCountry: "CH",
+    };
+  }
   return (
     <script
       type="application/ld+json"

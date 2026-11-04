@@ -53,7 +53,7 @@ src/
     dolmetschen/                     /dolmetschen
     anfrage/                         /anfrage  (Formular «Anfrage & Termin»)
     api/anfrage/route.ts             POST /api/anfrage – prüft die Anfrage und versendet die E-Mails (Resend)
-    kontakt/                         /kontakt  (Kontaktangaben, Standort – Platzhalter «[folgt]»)
+    kontakt/                         /kontakt  (Kontaktangaben, Standort, Anfahrt)
     rechtliche-hinweise/             /rechtliche-hinweise  (Auszug AGB aus dem Briefing)
     not-found.tsx    404-Seite
     sitemap.ts, robots.ts
@@ -111,11 +111,11 @@ Texte der Seiten stehen direkt in den jeweiligen `page.tsx`-Dateien.
 3. **API Keys → Create API Key** (Berechtigung «Sending access») und den Schlüssel in Vercel als `RESEND_API_KEY` speichern, dann neu deployen.
 4. Testanfrage über `/anfrage` senden und prüfen, ob sie im Postfach `info@…` ankommt (auch im Spam-Ordner nachsehen).
 
-Empfehlung: Solange das Impressum unvollständig ist (Postadresse), die Website nicht öffentlich bewerben.
+Empfehlung: Die Rechtstexte vor dem öffentlichen Bewerben der Website prüfen lassen.
 
 ## Offene Punkte (vor dem Livegang zu klären)
 
-- Postadresse für Impressum/Datenschutz (`src/config/site.ts`). Telefonnummer und E-Mail sind eingetragen.
+- Anfahrtsbeschreibung für die Kontaktseite (`src/app/kontakt/page.tsx`). Telefon, E-Mail und Postadresse sind eingetragen.
 - Impressum, Datenschutzerklärung, Cookie-Richtlinie und AGB-Auszug liegen als Entwurf vor (`/impressum`, `/datenschutz`, `/cookie-richtlinie`, `/rechtliche-hinweise`) und sollten von einer Fachperson geprüft werden.
 - Arbeitszeiten für Termine (in `booking.ts` nur angenommen; sie werden nirgends als Öffnungszeiten veröffentlicht).
 - Angebotene Sprachrichtungen/Dialekte (im Formular als vorläufig gekennzeichnet).

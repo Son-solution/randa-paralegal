@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
 import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import ContactValue from "@/components/ui/ContactValue";
@@ -78,7 +78,7 @@ export default function ContactPage() {
             <div className="rv" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               <div>
                 <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: 600, color: "#163A5F" }}>Adresse</h3>
-                <p style={{ margin: 0, fontSize: "15.5px", color: "#2B3644" }}><span style={{ color: "#8A6508" }}>[Adresse folgt]</span></p>
+                <p style={{ margin: 0, fontSize: "15.5px", color: "#2B3644" }}>{site.contact.address ? site.contact.address.map((line, i) => <Fragment key={line}>{i > 0 ? <br /> : null}{line}</Fragment>) : <span style={{ color: "#8A6508" }}>[Adresse folgt]</span>}</p>
               </div>
               <div>
                 <h3 style={{ margin: "0 0 6px", fontSize: "16px", fontWeight: 600, color: "#163A5F" }}>Anfahrt</h3>
