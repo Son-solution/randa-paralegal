@@ -38,6 +38,14 @@ export const site = {
     address: ["Schaffhauserstrasse 128", "8152 Glattbrugg"] as string[] | null,
   },
 
+  /**
+   * Google Analytics 4 measurement ID. Loaded only after the visitor accepts the
+   * cookie banner (src/components/consent). `null` removes Analytics and the banner.
+   */
+  analytics: {
+    gaId: "G-K3SSXVV1JJ" as string | null,
+  },
+
   /** UID (Unternehmens-Identifikationsnummer), e.g. "CHE-123.456.789" – only if registered. */
   uid: null as string | null,
 

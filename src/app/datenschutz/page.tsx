@@ -22,7 +22,7 @@ export default function DatenschutzPage() {
     <LegalDocument
       title="Datenschutzerklärung"
       intro={<p style={{ margin: 0 }}>Der vertrauliche Umgang mit Ihren Daten ist für meine Arbeit zentral. Hier erfahren Sie, welche Personendaten ich bearbeite, wofür und welche Rechte Sie haben.</p>}
-      updated="Oktober 2026"
+      updated="November 2026"
       sections={[
         {
           title: "Verantwortliche Stelle",
@@ -65,12 +65,13 @@ export default function DatenschutzPage() {
           ),
         },
         {
-          title: "Cookies und Tracking",
+          title: "Cookies und Webanalyse (Google Analytics)",
           body: (
-            <p style={pStyle}>
-              Diese Website verwendet keine Cookies und keine Analyse- oder Tracking-Tools. Die Schriftarten werden von unserem eigenen Server geladen. Details finden Sie in der{" "}
-              <Link href={routes.cookies} style={{ color: "#8A6508" }}>Cookie-Richtlinie</Link>.
-            </p>
+            <>
+              <p style={pStyle}>Nur wenn Sie im Cookie-Hinweis einwilligen, verwende ich Google Analytics 4, einen Webanalysedienst der Google Ireland Limited bzw. der Google LLC (USA). Google Analytics setzt Cookies und erfasst Angaben zur Nutzung der Website, etwa aufgerufene Seiten, Verweildauer, ungefährer Standort (Land/Stadt), Gerät und Browser. Die IP-Adresse wird von Google gekürzt. Dabei können Daten in die USA übermittelt werden; Google ist unter dem Swiss-U.S. Data Privacy Framework zertifiziert. Die Daten nutze ich ausschliesslich, um die Website zu verbessern.</p>
+              <p style={pStyle}>Ohne Einwilligung wird Google Analytics nicht geladen. Sie können Ihre Einwilligung jederzeit über «Cookie-Einstellungen» in der Fusszeile widerrufen. Die Schriftarten werden von unserem eigenen Server geladen. Details finden Sie in der{" "}
+              <Link href={routes.cookies} style={{ color: "#8A6508" }}>Cookie-Richtlinie</Link>.</p>
+            </>
           ),
         },
         {

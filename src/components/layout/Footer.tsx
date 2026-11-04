@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CookieSettingsLink from "@/components/consent/CookieSettingsLink";
 import { routes, services } from "@/config/navigation";
 import { site } from "@/config/site";
 
@@ -99,6 +100,7 @@ export default function Footer() {
           <LegalItem href={site.legal.impressum} label="Impressum" />
           <LegalItem href={site.legal.datenschutz} label="Datenschutzerklärung" />
           <LegalItem href={site.legal.cookies} label="Cookie-Richtlinie" />
+          {site.analytics.gaId ? <CookieSettingsLink /> : null}
           <LegalItem href={site.legal.agb} label="AGB & rechtliche Hinweise" />
         </nav>
       </div>

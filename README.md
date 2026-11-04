@@ -75,6 +75,7 @@ src/
 Alle veränderbaren Geschäftsangaben liegen in **`src/config/`**:
 
 - **`site.ts`**
+  - `analytics.gaId` – Google-Analytics-4-ID. Analytics wird erst nach «Akzeptieren» im Cookie-Hinweis geladen (`src/components/consent`, `src/lib/consent.ts`); `null` entfernt Analytics und den Hinweis. Bei Änderungen Cookie-Richtlinie und Datenschutzerklärung anpassen.
   - `contact.phone`, `contact.email` – solange `null`, zeigt die Website «[folgt]» bzw. führt der Anruf-Button zum Formular. Telefonnummer im internationalen Format, z. B. `"+41 79 123 45 67"`.
   - `legal.impressum`, `legal.datenschutz`, `legal.agb` – Pfad der jeweiligen Seite, sobald sie (rechtlich geprüft) existiert, z. B. `"/impressum"`. Solange `null`, erscheint der Eintrag im Footer nur als Text.
   - `showPrototypeBar` – blendet den Prototyp-Hinweis oben auf jeder Seite ein/aus.

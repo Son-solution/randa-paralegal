@@ -13,6 +13,7 @@ import "@fontsource/montserrat/500.css";
 import "@fontsource/montserrat/600.css";
 import "./globals.css";
 
+import CookieConsent from "@/components/consent/CookieConsent";
 import { site } from "@/config/site";
 import { baseOpenGraph } from "@/lib/seo";
 
@@ -42,7 +43,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="de-CH">
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   );
 }
