@@ -151,7 +151,7 @@ export default function InterpretingPage() {
             </div>
             <div className="rv" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
               <p className="serif" style={{ margin: "0", fontSize: "clamp(24px, 2.4vw, 32px)", lineHeight: "1.35", color: "#163A5F" }}>Ich übertrage das Gespräch, damit alle Beteiligten einander verstehen. Ich berate nicht und vertrete niemanden.</p>
-              <div style={{ border: "1px solid #E4DCCB", borderTop: "2px solid #163A5F", padding: "24px 26px", background: "#FAF9F5" }}>
+              <div className="amb-card" style={{ border: "1px solid #E4DCCB", borderTop: "2px solid #163A5F", padding: "24px 26px", background: "#FAF9F5" }}>
                 <div className="eyebrow" style={{ color: "#8A6508", fontSize: "11px" }}>Wichtiger Hinweis</div>
                 <p style={{ margin: "10px 0 0", fontSize: "15.5px", color: "#2B3644" }}>Die Dolmetschleistung dient der reinen Sprachmittlung zur Vermeidung von Verständigungsproblemen. Es erfolgt keine rechtliche Vertretung oder Beratung. Die Übertragung erfolgt nach bestem Wissen und Gewissen; Einzelheiten regeln die AGB.</p>
               </div>
@@ -165,7 +165,7 @@ export default function InterpretingPage() {
                 <div className="eyebrow" style={{ color: "#8A6508", display: "flex", alignItems: "center", gap: "14px" }}><span aria-hidden="true" style={{ display: "inline-block", width: "40px", height: "1px", background: "#D4A017" }}></span>Ablauf</div>
                 <h2 id="ablauf-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>Von der Anfrage zum Gespräch.</h2>
               </div>
-              <div style={{ background: "#FFFFFF", border: "1px solid #ECE6D8", padding: "22px 24px" }}>
+              <div className="amb-card" style={{ background: "#FFFFFF", border: "1px solid #ECE6D8", padding: "22px 24px" }}>
                 <div className="eyebrow" style={{ color: "#8A6508", fontSize: "11px" }}>Bitte in der Anfrage angeben</div>
                 <p style={{ margin: "8px 0 0", fontSize: "14.5px", color: "#2B3644" }}>Datum und Uhrzeit · Ort · voraussichtliche Dauer · Sprache bzw. Sprachvariante · Thema in Stichworten</p>
               </div>

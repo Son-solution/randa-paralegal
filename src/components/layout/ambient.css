@@ -1,0 +1,220 @@
+/*
+ * Ambient animations (AmbientMotion.tsx) – continuous, independent of scrolling.
+ * Everything that moves is scoped to `.amb-on` (set only without reduced motion)
+ * and animates transform/opacity where possible, so it stays light on the GPU.
+ * To remove all of it: delete <AmbientMotion /> in SiteShell.tsx.
+ */
+
+@property --amb-a { syntax:"<angle>"; inherits:false; initial-value:0deg; }
+
+/* ---------- 7. Services ribbon below the home page hero (static without motion) ---------- */
+.amb-ribbon { overflow:hidden; background:#F3EEE4; border-top:1px solid #E4DCCB; padding:22px 0; -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); }
+.amb-ribbon-track { display:flex; width:max-content; }
+.amb-ribbon-set { display:flex; flex-shrink:0; }
+.amb-ribbon-item { display:inline-flex; align-items:center; gap:clamp(28px,4vw,52px); padding-right:clamp(28px,4vw,52px); white-space:nowrap; }
+.amb-ribbon-item .serif { font-size:clamp(22px,2.4vw,32px); font-style:italic; font-weight:500; color:#163A5F; }
+.amb-ribbon-dia { width:9px; height:9px; background:#D4A017; transform:rotate(45deg); flex-shrink:0; }
+
+/* ---------- 10. Pointer spotlight (only shown while the pointer is over the page hero) ---------- */
+.amb-spot { position:fixed; left:0; top:0; z-index:20; width:620px; height:620px; margin:-310px 0 0 -310px; border-radius:50%; pointer-events:none; background:radial-gradient(closest-side,rgba(212,160,23,.16),rgba(212,160,23,.05) 55%,transparent); opacity:0; transition:opacity .8s ease; will-change:transform; }
+.amb-on .amb-spot.is-on { opacity:1; }
+
+@media (prefers-reduced-motion:no-preference) and (forced-colors:none) {
+  /* ---------- 1. Gold light sweeping across the headings every few seconds ---------- */
+  .amb-on main :is(h1,h2).serif:not(:has(.ln)),
+  .amb-on main .ln {
+    background:linear-gradient(100deg,currentColor 0 42%,#C9971A 46%,#F3D27A 50%,#C9971A 54%,currentColor 58% 100%) 100% 0 / 300% 100% no-repeat;
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    animation:ambSheen 9s cubic-bezier(.45,0,.25,1) infinite;
+  }
+  .amb-on main :is(h1,h2).serif:not(:has(.ln)) ::selection,
+  .amb-on main :is(h1,h2).serif:not(:has(.ln))::selection,
+  .amb-on main .ln::selection { -webkit-text-fill-color:#FFFFFF; background:#163A5F; }
+  .amb-on main .ln { animation-delay:2.2s; }
+  .amb-on main span:nth-child(2) > .ln { animation-delay:2.35s; }
+  .amb-on main span:nth-child(3) > .ln { animation-delay:2.5s; }
+  @keyframes ambSheen { 0% { background-position:100% 0; } 28%,100% { background-position:0 0; } }
+
+  /* ---------- 2. Slow Ken Burns on the hero photo only (scale/translate compose with existing transforms) ---------- */
+  .amb-on .motion main > section:first-of-type div:has(> img[data-nimg="fill"]) > img { animation:ambKen 26s ease-in-out infinite alternate; }
+  @keyframes ambKen { from { scale:1; translate:0 0; } to { scale:1.09; translate:-1.8% -1.2%; } }
+
+  /* ---------- 3. Drifting gold glow in navy sections and the footer ---------- */
+  .amb-on .motion :is(main > section:is([style*="163A5F" i],[style*="rgb(22, 58, 95)"]), footer) { position:relative; overflow:hidden; isolation:isolate; }
+  .amb-on .motion :is(main > section:is([style*="163A5F" i],[style*="rgb(22, 58, 95)"]), footer)::before {
+    content:""; position:absolute; inset:-30%; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(32% 38% at 22% 30%,rgba(212,160,23,.17),transparent 70%),
+      radial-gradient(28% 34% at 78% 72%,rgba(232,195,90,.11),transparent 70%),
+      radial-gradient(40% 40% at 60% 20%,rgba(64,120,180,.18),transparent 70%);
+    animation:ambAurora 28s ease-in-out infinite alternate;
+  }
+  @keyframes ambAurora {
+    0% { transform:translate3d(-6%,-3%,0) rotate(0deg) scale(1); }
+    50% { transform:translate3d(5%,4%,0) rotate(8deg) scale(1.08); }
+    100% { transform:translate3d(-2%,6%,0) rotate(-6deg) scale(1.02); }
+  }
+
+  /* ---------- 4. A light running around the card borders (brighter on hover) ---------- */
+  /* .hero-float is already positioned absolutely, so it keeps its own position */
+  .amb-on .motion :is(.card,.sit,.amb-card,.page-about .svc,.page-admin .svc,.page-youth .svc,.page-interp .svc) { position:relative; }
+  .amb-on .motion :is(.card,.sit,.amb-card,.hero-float,.page-about .svc,.page-admin .svc,.page-youth .svc,.page-interp .svc)::before {
+    content:""; position:absolute; inset:0; z-index:3; border-radius:inherit; padding:1px; pointer-events:none;
+    background:conic-gradient(from var(--amb-a),transparent 0 76%,rgba(212,160,23,.5) 84%,#F3D27A 88%,rgba(212,160,23,.5) 92%,transparent 100%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+    opacity:.65; transition:opacity .5s, padding .5s;
+    animation:ambTurn 8s linear infinite;
+  }
+  .amb-on .motion :is(.card,.sit,.amb-card,.hero-float,.svc):hover::before { opacity:1; padding:1.5px; animation-duration:4s; }
+  .amb-on .motion :is(.card,.sit,.amb-card,.hero-float,.svc):nth-child(2)::before { animation-delay:-2.7s; }
+  .amb-on .motion :is(.card,.sit,.amb-card,.hero-float,.svc):nth-child(3)::before { animation-delay:-5.3s; }
+  .amb-on .motion :is(.card,.sit,.amb-card,.hero-float,.svc):nth-child(4)::before { animation-delay:-1.4s; }
+  .amb-on .motion :is(.card,.sit,.amb-card,.hero-float,.svc):nth-child(5)::before { animation-delay:-4s; }
+  .amb-on .motion :is(.card,.sit,.amb-card,.hero-float,.svc):nth-child(6)::before { animation-delay:-6.6s; }
+  @keyframes ambTurn { to { --amb-a:360deg; } }
+
+  /* ---------- 5. Breathing halo around the WhatsApp and call buttons ---------- */
+  .amb-on :is(.wa-fab,.call-fab)::before,
+  .amb-on :is(.wa-fab,.call-fab)::after {
+    content:""; position:absolute; inset:-1px; border-radius:50%; border:1px solid #D4A017; pointer-events:none;
+    animation:ambHalo 3.6s cubic-bezier(.2,.6,.3,1) infinite;
+  }
+  .amb-on :is(.wa-fab,.call-fab)::after { animation-delay:1.2s; }
+  .amb-on .call-fab::before { animation-delay:1.8s; }
+  .amb-on .call-fab::after { animation-delay:3s; }
+  @keyframes ambHalo { 0% { transform:scale(1); opacity:.75; } 70%,100% { transform:scale(1.7); opacity:0; } }
+
+  /* ---------- 6. Gold dust rising in the page hero and the footer ---------- */
+  .amb-on .motion :is(main > section.lux-host:first-of-type, footer) { position:relative; isolation:isolate; }
+  .amb-on .motion :is(main > section.lux-host:first-of-type, footer)::after {
+    content:""; position:absolute; left:0; right:0; top:0; bottom:-300px; z-index:-1; pointer-events:none;
+    background-image:
+      radial-gradient(circle at 12% 18%,rgba(232,195,90,.9) 0 1.2px,transparent 2px),
+      radial-gradient(circle at 37% 64%,rgba(212,160,23,.8) 0 1px,transparent 1.8px),
+      radial-gradient(circle at 58% 9%,rgba(243,210,122,.9) 0 1.6px,transparent 2.4px),
+      radial-gradient(circle at 81% 47%,rgba(212,160,23,.7) 0 1px,transparent 1.8px),
+      radial-gradient(circle at 24% 88%,rgba(243,210,122,.8) 0 1.4px,transparent 2.2px),
+      radial-gradient(circle at 69% 79%,rgba(232,195,90,.9) 0 1px,transparent 1.8px),
+      radial-gradient(circle at 93% 15%,rgba(212,160,23,.8) 0 1.3px,transparent 2px),
+      radial-gradient(circle at 47% 36%,rgba(243,210,122,.7) 0 .9px,transparent 1.6px);
+    background-size:300px 300px;
+    -webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent); mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);
+    opacity:.55;
+    animation:ambDust 24s linear infinite;
+  }
+  .amb-on .motion footer::after { opacity:.7; }
+  @keyframes ambDust {
+    0% { transform:translate3d(0,0,0); }
+    50% { transform:translate3d(14px,-150px,0); }
+    100% { transform:translate3d(0,-300px,0); }
+  }
+
+  /* ---------- 7. The ribbon moves; it pauses under the pointer ---------- */
+  .amb-on .amb-ribbon-track { animation:ambRibbon 48s linear infinite; }
+  .amb-on .amb-ribbon:hover .amb-ribbon-track { animation-play-state:paused; }
+  .amb-on .amb-ribbon-dia { animation:ambDia 6s ease-in-out infinite; }
+  @keyframes ambRibbon { to { transform:translate3d(-50%,0,0); } }
+  @keyframes ambDia { 0%,100% { transform:rotate(45deg) scale(1); opacity:.6; } 50% { transform:rotate(225deg) scale(1.25); opacity:1; } }
+
+  /* ---------- 8. Line illustrations draw, rest, erase and draw again ---------- */
+  .amb-on .draw { stroke-dasharray:1; animation:ambDraw 14s cubic-bezier(.65,0,.35,1) infinite both; animation-delay:calc(var(--d,0) * 1s); }
+  .amb-on .pop { transform-box:fill-box; transform-origin:center; animation:ambPop 14s cubic-bezier(.34,1.56,.64,1) infinite both; animation-delay:calc(var(--d,0) * 1s); }
+  @keyframes ambDraw { 0% { stroke-dashoffset:1; } 22%,82% { stroke-dashoffset:0; } 96%,100% { stroke-dashoffset:-1; } }
+  @keyframes ambPop { 0% { opacity:0; scale:.6; } 8%,78% { opacity:1; scale:1; } 88%,100% { opacity:0; scale:.6; } }
+
+  /* ---------- 9. A light travelling along the gold hairlines ---------- */
+  .amb-on main .eyebrow > span[aria-hidden="true"] { position:relative; overflow:visible; }
+  .amb-on main .eyebrow > span[aria-hidden="true"]::after {
+    content:""; position:absolute; top:-2px; left:0; width:5px; height:5px; margin-left:-2.5px; border-radius:50%;
+    background:#F3D27A; box-shadow:0 0 6px 2px rgba(232,195,90,.8);
+    animation:ambSpark 4.5s ease-in-out infinite;
+  }
+  @keyframes ambSpark { 0% { left:0; opacity:0; } 10% { opacity:1; } 45% { left:100%; opacity:1; } 55%,100% { left:100%; opacity:0; } }
+  .amb-on .motion footer > div[aria-hidden="true"]:first-child { overflow:hidden; }
+  .amb-on .motion footer > div[aria-hidden="true"]:first-child::after {
+    content:""; position:absolute; top:0; left:0; width:180px; height:1px;
+    background:linear-gradient(90deg,transparent,#FFF3C4,transparent);
+    animation:ambLine 7s ease-in-out infinite;
+  }
+  @keyframes ambLine { from { transform:translateX(-200px); } 60%,to { transform:translateX(100vw); } }
+
+  /* ---------- 11. Hero: a gold light sweeps across the photo ---------- */
+  .amb-on .motion main > section:first-of-type div:has(> img[data-nimg="fill"])::before {
+    content:""; position:absolute; top:0; bottom:0; left:0; width:60%; z-index:1; pointer-events:none;
+    background:linear-gradient(105deg,transparent 20%,rgba(255,236,170,.08) 38%,rgba(255,240,190,.38) 50%,rgba(255,236,170,.08) 62%,transparent 80%);
+    mix-blend-mode:soft-light;
+    animation:ambPhotoSweep 7s cubic-bezier(.45,0,.25,1) 2s infinite;
+    transform:translateX(-120%);
+  }
+  @keyframes ambPhotoSweep { 0% { transform:translateX(-120%); } 40%,100% { transform:translateX(260%); } }
+
+  /* ---------- 12. Hero: the gold corner frame breathes next to the photo ---------- */
+  .amb-on .motion :is(.hframe,.pframe,.jframe,.dframe) { animation:ambFrame 6s ease-in-out infinite alternate; }
+  .amb-on .motion :is(.jframe) { animation-name:ambFrameLow; }
+  @keyframes ambFrame { from { translate:0 0; opacity:.55; } to { translate:8px -8px; opacity:1; } }
+  @keyframes ambFrameLow { from { translate:0 0; opacity:.55; } to { translate:-8px 8px; opacity:1; } }
+
+  /* ---------- 13. Hero: the "Termine" box floats gently (after its entrance) ---------- */
+  .amb-on .page-home .motion .hero-float {
+    animation:rise 1s cubic-bezier(.2,.7,.2,1) both, ambFloat 6.5s ease-in-out infinite alternate;
+    animation-delay:var(--d,0s), 2.4s;
+  }
+  @keyframes ambFloat { from { translate:0 0; } to { translate:0 -12px; } }
+
+  /* ---------- 14. Details: a light sweeps across the navy and ivory buttons ---------- */
+  .amb-on :is(.btn-navy,.btn-ivory)::after {
+    content:""; position:absolute; top:0; bottom:0; left:0; width:45%; pointer-events:none;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.28) 50%,transparent);
+    animation:ambBtnSweep 5.5s cubic-bezier(.45,0,.25,1) infinite;
+    transform:translateX(-130%);
+  }
+  .amb-on .btn-ivory::after { background:linear-gradient(105deg,transparent,rgba(212,160,23,.28) 50%,transparent); }
+  @keyframes ambBtnSweep { 0% { transform:translateX(-130%); } 30%,100% { transform:translateX(330%); } }
+
+  /* ---------- 15. Details: the gold symbols (§ ⁂ ◦) turn and float, the numerals (I. II. III.) float and glow ---------- */
+  .amb-on main span.serif[aria-hidden="true"][style*="28px"] { animation:ambSymbol 7s ease-in-out infinite; }
+  .amb-on main :is(span,div).serif[aria-hidden="true"]:not([style*="28px"]) { display:inline-block; animation:ambNumeral 5s ease-in-out infinite; }
+  .amb-on main div.serif[aria-hidden="true"] { display:block; }
+  .amb-on main :nth-child(2) > :is(span,div).serif[aria-hidden="true"],
+  .amb-on main :nth-child(2) > div > :is(span,div).serif[aria-hidden="true"] { animation-delay:-1.7s; }
+  .amb-on main :nth-child(3) > :is(span,div).serif[aria-hidden="true"],
+  .amb-on main :nth-child(3) > div > :is(span,div).serif[aria-hidden="true"] { animation-delay:-3.4s; }
+  @keyframes ambSymbol {
+    0%,100% { translate:0 0; rotate:0deg; text-shadow:none; }
+    50% { translate:0 -4px; rotate:12deg; text-shadow:0 0 12px rgba(232,195,90,.75); }
+  }
+  @keyframes ambNumeral {
+    0%,100% { translate:0 0; text-shadow:none; }
+    50% { translate:0 -3px; text-shadow:0 0 10px rgba(212,160,23,.5); }
+  }
+
+  /* ---------- 16. Details: a shine passes over the logo in the header ---------- */
+  .amb-on .hdr .logo { position:relative; overflow:hidden; }
+  .amb-on .hdr .logo::after {
+    content:""; position:absolute; top:0; bottom:0; left:0; width:40%; pointer-events:none;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.85) 50%,transparent);
+    mix-blend-mode:overlay;
+    animation:ambLogo 8s cubic-bezier(.45,0,.25,1) 1.5s infinite;
+    transform:translateX(-150%);
+  }
+  @keyframes ambLogo { 0% { transform:translateX(-150%); } 22%,100% { transform:translateX(350%); } }
+
+  /* ---------- 17. Details: the gold dashes in lists light up one after another ---------- */
+  .amb-on main li > span[aria-hidden="true"]:first-child { display:inline-block; animation:ambDash 5s ease-in-out infinite; }
+  .amb-on main li:nth-child(2) > span[aria-hidden="true"]:first-child { animation-delay:.4s; }
+  .amb-on main li:nth-child(3) > span[aria-hidden="true"]:first-child { animation-delay:.8s; }
+  .amb-on main li:nth-child(4) > span[aria-hidden="true"]:first-child { animation-delay:1.2s; }
+  .amb-on main li:nth-child(5) > span[aria-hidden="true"]:first-child { animation-delay:1.6s; }
+  .amb-on main li:nth-child(6) > span[aria-hidden="true"]:first-child { animation-delay:2s; }
+  @keyframes ambDash {
+    0%,40%,100% { translate:0 0; text-shadow:none; }
+    15% { translate:4px 0; color:#F3D27A; text-shadow:0 0 10px rgba(232,195,90,.9); }
+  }
+}
+
+/* Phones: no dust on the hero (keeps text calm), no spotlight */
+@media (max-width:700px) {
+  .amb-on .motion main > section.lux-host:first-of-type::after { display:none; }
+  .amb-ribbon { padding:16px 0; }
+}

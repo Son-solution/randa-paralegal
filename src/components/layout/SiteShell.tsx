@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import PrototypeBar from "./PrototypeBar";
 import ScrollReveal from "./ScrollReveal";
+import AmbientMotion from "./AmbientMotion";
 import CallButton from "./CallButton";
 import WhatsAppButton from "./WhatsAppButton";
 
@@ -50,6 +51,8 @@ export default function SiteShell({ page, children, showCallButton = true }: Pro
         <PrototypeBar />
         <Header current={page} />
         {children}
+        {/* Continuous ambient animations – remove this line to switch them all off */}
+        <AmbientMotion />
         <Footer />
         {showCallButton ? (
           <>

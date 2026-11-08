@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import SiteShell from "@/components/layout/SiteShell";
+import { ServicesRibbon } from "@/components/layout/AmbientMotion";
 import LuxuryOrnaments from "@/components/ui/LuxuryOrnaments";
 import ContactValue from "@/components/ui/ContactValue";
 import CallCta from "@/components/ui/CallCta";
@@ -73,6 +74,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        <ServicesRibbon />
         <section id="leistungen" aria-labelledby="leistungen-title" style={{ background: "#FFFFFF", padding: "clamp(80px, 10vw, 140px) 0", borderTop: "1px solid #ECE6D8" }}>
           <div className="wrap">
             <div className="rv split" style={{ alignItems: "end", marginBottom: "clamp(48px, 6vw, 80px)" }}>

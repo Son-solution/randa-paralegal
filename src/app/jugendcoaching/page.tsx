@@ -101,7 +101,7 @@ export default function YouthCoachingPage() {
               <h2 id="leist-title" className="serif" style={{ margin: "18px 0 0", fontSize: "clamp(38px, 4.4vw, 58px)", lineHeight: "1.08", fontWeight: "500", color: "#163A5F" }}>Orientierung und Begleitung – zwei Seiten eines Weges.</h2>
             </div>
             <div className="two">
-              <div className="rv" style={{ background: "#FFFFFF", border: "1px solid #ECE6D8", padding: "clamp(28px, 4vw, 48px)", display: "flex", flexDirection: "column", gap: "18px" }}>
+              <div className="rv amb-card" style={{ background: "#FFFFFF", border: "1px solid #ECE6D8", padding: "clamp(28px, 4vw, 48px)", display: "flex", flexDirection: "column", gap: "18px" }}>
                 <span className="serif" aria-hidden="true" style={{ fontSize: "22px", fontStyle: "italic", color: "#8A6508" }}>I.</span>
                 <h3 className="serif" style={{ margin: "0", fontSize: "34px", fontWeight: "600", lineHeight: "1.1", color: "#163A5F" }}>Berufsorientierung</h3>
                 <ul style={{ margin: "0", padding: "0", listStyle: "none", display: "flex", flexDirection: "column", gap: "0", fontSize: "15.5px", color: "#2B3644", borderTop: "1px solid #E4DCCB" }}>
@@ -112,7 +112,7 @@ export default function YouthCoachingPage() {
                   <li style={{ display: "flex", gap: "14px", padding: "13px 0", borderBottom: "1px solid #E4DCCB" }}><span aria-hidden="true" style={{ color: "#D4A017" }}>—</span>Lehrstellen, Praktika und Schnupperlehren suchen</li>
                 </ul>
               </div>
-              <div className="rv" style={{ background: "#163A5F", color: "#FFFFFF", padding: "clamp(28px, 4vw, 48px)", display: "flex", flexDirection: "column", gap: "18px" }}>
+              <div className="rv amb-card" style={{ background: "#163A5F", color: "#FFFFFF", padding: "clamp(28px, 4vw, 48px)", display: "flex", flexDirection: "column", gap: "18px" }}>
                 <span className="serif" aria-hidden="true" style={{ fontSize: "22px", fontStyle: "italic", color: "#D4A017" }}>II.</span>
                 <h3 className="serif" style={{ margin: "0", fontSize: "34px", fontWeight: "600", lineHeight: "1.1", color: "#FAF9F5" }}>Integration &amp; Begleitung</h3>
                 <ul style={{ margin: "0", padding: "0", listStyle: "none", display: "flex", flexDirection: "column", gap: "0", fontSize: "15.5px", color: "#DCE3EB", borderTop: "1px solid rgba(255,255,255,.2)" }}>
@@ -248,7 +248,7 @@ export default function YouthCoachingPage() {
                 </ul>
               </div>
             </div>
-            <div className="rv" style={{ marginTop: "clamp(40px, 5vw, 64px)", background: "#163A5F", color: "#FFFFFF", padding: "clamp(28px, 4vw, 44px)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "20px 48px", alignItems: "start", position: "relative" }}>
+            <div className="rv amb-card" style={{ marginTop: "clamp(40px, 5vw, 64px)", background: "#163A5F", color: "#FFFFFF", padding: "clamp(28px, 4vw, 44px)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "20px 48px", alignItems: "start", position: "relative" }}>
               <div aria-hidden="true" style={{ position: "absolute", inset: "12px", border: "1px solid rgba(212,160,23,.25)", pointerEvents: "none" }}></div>
               <div style={{ position: "relative" }}>
                 <div className="eyebrow" style={{ color: "#D4A017", fontSize: "11px" }}>Unter 18 Jahren</div>
