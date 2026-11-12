@@ -1,5 +1,5 @@
 /**
- * Local landing pages (/standorte/<slug>): one page per city, built from the home page
+ * Local landing pages (/<slug>, e.g. /kloten): one page per city, built from the home page
  * with city-specific wording. Zürich itself is the home page.
  *
  * Every city has its own hand-written intro, local paragraph, FAQ entry and meta description,
@@ -25,7 +25,6 @@ export type City = {
   description: string;
 };
 
-export const cityBase = "/standorte";
 
 export const cities: City[] = [
   {
@@ -818,4 +817,4 @@ export function findCity(slug: string): City | undefined {
   return cities.find((c) => c.slug === slug);
 }
 
-export const cityHref = (c: City) => `${cityBase}/${c.slug}`;
+export const cityHref = (c: City) => `/${c.slug}`;

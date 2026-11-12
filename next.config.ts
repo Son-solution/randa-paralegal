@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
     // Responsive AVIF/WebP versions are generated automatically (also on Vercel).
     formats: ["image/avif", "image/webp"],
   },
+  // City pages used to live under /standorte/<slug>; keep old links working.
+  async redirects() {
+    return [{ source: "/standorte/:stadt", destination: "/:stadt", permanent: true }];
+  },
   async headers() {
     return [
       {
