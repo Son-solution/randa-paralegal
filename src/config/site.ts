@@ -77,7 +77,7 @@ export const site = {
    * prototype (no legal pages, demo form); every page then carries "noindex".
    * Set to `true` for the public launch.
    */
-  allowIndexing: false,
+  allowIndexing: true,
 
   /** Text of the prototype notice. */
   prototypeNotice:
