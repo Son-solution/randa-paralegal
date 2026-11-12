@@ -1,6 +1,6 @@
 /** Routes and service definitions used by the header, footer and intake form. */
 
-export type PageKey = "home" | "about" | "admin" | "youth" | "interp" | "intake" | "contact" | "legal" | "none";
+export type PageKey = "home" | "about" | "admin" | "youth" | "interp" | "intake" | "contact" | "legal" | "city" | "none";
 
 export const routes = {
   home: "/",

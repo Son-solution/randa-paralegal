@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
+import { cities, cityHref } from "@/config/cities";
 import { routes } from "@/config/navigation";
 import { site } from "@/config/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  return Object.values(routes).map((path) => ({
+  return [...Object.values(routes), ...cities.map(cityHref)].map((path) => ({
     url: `${site.url}${path === "/" ? "" : path}`,
     lastModified: now,
     changeFrequency: "monthly",

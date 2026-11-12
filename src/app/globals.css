@@ -636,3 +636,21 @@ fieldset legend.lbl { margin-bottom:14px !important; }
   .motion main section > div[aria-hidden="true"][style*="inset"][style*="border"] { inset:10px !important; }
   .motion main section:has(> div[aria-hidden="true"][style*="inset"][style*="border"]) > .wrap { padding-left:30px; padding-right:30px; }
 }
+
+/* Footer "Standorte": floating list of the city pages (CitiesMenu.tsx). It opens upwards;
+   closed, it is only hidden (visibility), so the links stay in the markup for search engines. */
+.cities { position:relative; }
+.cities-btn { display:inline-flex; align-items:center; gap:8px; background:none; border:0; padding:0; font:inherit; color:#DCE3EB; cursor:pointer; }
+.cities-btn .chev { transition:transform .35s cubic-bezier(.2,.7,.2,1); }
+.cities-btn[aria-expanded="true"] { color:#FFFFFF; }
+.cities-btn[aria-expanded="true"] .chev { transform:rotate(180deg); }
+.cities-panel { position:absolute; left:-20px; bottom:calc(100% + 14px); z-index:30; width:min(580px,calc(100vw - 32px)); padding:22px 24px 20px; background:#0F2A45; border:1px solid rgba(212,160,23,.45); border-radius:var(--r-card); box-shadow:0 30px 60px -24px rgba(0,0,0,.6); opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .35s,transform .35s cubic-bezier(.2,.7,.2,1),visibility 0s .35s; text-align:left; }
+.cities-panel.is-open { opacity:1; visibility:visible; transform:none; transition:opacity .35s,transform .35s cubic-bezier(.2,.7,.2,1); }
+.cities-title { color:#D4A017; font-size:11px; padding-bottom:12px; margin-bottom:12px; border-bottom:1px solid rgba(212,160,23,.3); }
+.cities-panel ul { list-style:none; margin:0; padding:0 6px 0 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px 18px; font-size:13.5px; max-height:min(52vh,440px); overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:rgba(212,160,23,.5) transparent; }
+@media (max-width:520px) { .cities-panel ul { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.cities-panel a[aria-current="page"] { color:#D4A017; }
+/* Tablets and phones: the list opens as a sheet at the bottom of the screen, so it never runs off the edge */
+@media (max-width:980px) {
+  .cities-panel { position:fixed; left:16px; right:16px; bottom:16px; width:auto; z-index:60; }
+}

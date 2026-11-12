@@ -19,6 +19,8 @@ const pageClass: Record<PageKey, string> = {
   contact: "page-about",
   legal: "page-about",
   none: "page-about",
+  // City landing pages reuse the home page layout.
+  city: "page-home",
 };
 
 type Props = {

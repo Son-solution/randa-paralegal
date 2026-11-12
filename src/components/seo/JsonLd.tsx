@@ -1,3 +1,4 @@
+import { cityHref, type City } from "@/config/cities";
 import { site } from "@/config/site";
 
 /**
@@ -5,17 +6,17 @@ import { site } from "@/config/site";
  * phone, e-mail and address only once they are set in src/config/site.ts,
  * no opening hours or prices.
  */
-export default function JsonLd({ page }: { page: "home" }) {
+export default function JsonLd({ page, city }: { page: "home" | "city"; city?: City }) {
   const data: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: site.name,
-    url: site.url,
+    url: city ? `${site.url}${cityHref(city)}` : site.url,
     image: `${site.url}/images/og-image.jpg`,
     logo: `${site.url}/logo/randa-logo.png`,
     slogan: site.slogan,
     founder: { "@type": "Person", name: site.owner },
-    areaServed: { "@type": "City", name: site.city },
+    areaServed: { "@type": "City", name: city?.name ?? site.city },
     availableLanguage: site.languages,
     knowsAbout: ["Administrative Unterstützung", "Jugendcoaching", "Berufsorientierung", "Dolmetschen"],
   };

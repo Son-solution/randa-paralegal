@@ -39,9 +39,14 @@
   .amb-on .motion main > section:first-of-type div:has(> img[data-nimg="fill"]) > img { animation:ambKen 26s ease-in-out infinite alternate; }
   @keyframes ambKen { from { scale:1; translate:0 0; } to { scale:1.09; translate:-1.8% -1.2%; } }
 
-  /* ---------- 3. Drifting gold glow in navy sections and the footer ---------- */
-  .amb-on .motion :is(main > section:is([style*="163A5F" i],[style*="rgb(22, 58, 95)"]), footer) { position:relative; overflow:hidden; isolation:isolate; }
-  .amb-on .motion :is(main > section:is([style*="163A5F" i],[style*="rgb(22, 58, 95)"]), footer)::before {
+  /* ---------- 3. Drifting gold glow in navy sections and the footer ----------
+     The footer keeps overflow visible (the "Standorte" list opens above it), so its glow and dust
+     live in the clipped .amb-footer-fx layer instead. */
+  .amb-on .motion footer { isolation:isolate; }
+  .amb-on .amb-footer-fx { position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
+  .amb-on .motion :is(main > section:is([style*="163A5F" i],[style*="rgb(22, 58, 95)"])) { position:relative; overflow:hidden; isolation:isolate; }
+  .amb-on .motion :is(main > section:is([style*="163A5F" i],[style*="rgb(22, 58, 95)"]))::before,
+  .amb-on .amb-footer-fx::before {
     content:""; position:absolute; inset:-30%; z-index:-1; pointer-events:none;
     background:
       radial-gradient(32% 38% at 22% 30%,rgba(212,160,23,.17),transparent 70%),
@@ -86,8 +91,9 @@
   @keyframes ambHalo { 0% { transform:scale(1); opacity:.75; } 70%,100% { transform:scale(1.7); opacity:0; } }
 
   /* ---------- 6. Gold dust rising in the page hero and the footer ---------- */
-  .amb-on .motion :is(main > section.lux-host:first-of-type, footer) { position:relative; isolation:isolate; }
-  .amb-on .motion :is(main > section.lux-host:first-of-type, footer)::after {
+  .amb-on .motion main > section.lux-host:first-of-type { position:relative; isolation:isolate; }
+  .amb-on .motion main > section.lux-host:first-of-type::after,
+  .amb-on .amb-footer-fx::after {
     content:""; position:absolute; left:0; right:0; top:0; bottom:-300px; z-index:-1; pointer-events:none;
     background-image:
       radial-gradient(circle at 12% 18%,rgba(232,195,90,.9) 0 1.2px,transparent 2px),
@@ -103,7 +109,7 @@
     opacity:.55;
     animation:ambDust 24s linear infinite;
   }
-  .amb-on .motion footer::after { opacity:.7; }
+  .amb-on .amb-footer-fx::after { opacity:.7; }
   @keyframes ambDust {
     0% { transform:translate3d(0,0,0); }
     50% { transform:translate3d(14px,-150px,0); }

@@ -8,7 +8,6 @@ const ribbon = [
   "Jugendcoaching & Berufsorientierung",
   "Dolmetschen & Sprachhilfe",
   "Arabisch · Aramäisch · Deutsch",
-  "Zürich und Umgebung",
 ];
 
 /**
@@ -68,8 +67,8 @@ export default function AmbientMotion() {
 }
 
 /** Endless services ribbon, placed below the home page hero. Static with reduced motion. */
-export function ServicesRibbon() {
-  const items = ribbon.map((t) => (
+export function ServicesRibbon({ place = "Zürich und Umgebung" }: { place?: string }) {
+  const items = [...ribbon, place].map((t) => (
     <span key={t} className="amb-ribbon-item">
       <span className="serif">{t}</span>
       <span className="amb-ribbon-dia" />

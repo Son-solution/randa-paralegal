@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CookieSettingsLink from "@/components/consent/CookieSettingsLink";
+import CitiesMenu from "./CitiesMenu";
 import { routes, services } from "@/config/navigation";
 import { site } from "@/config/site";
 
@@ -92,6 +93,7 @@ export default function Footer() {
           <Link className="flink" href={routes.contact}>
             Kontakt
           </Link>
+          <CitiesMenu />
         </nav>
         <nav aria-label="Rechtliches" style={navStyle}>
           <span className="eyebrow" style={labelStyle}>
@@ -124,6 +126,8 @@ export default function Footer() {
           <span>© {new Date().getFullYear()} Randa Paralegal Services · Zürich</span>
         </div>
       </div>
+      {/* Layer for the ambient glow and gold dust (ambient.css) */}
+      <div className="amb-footer-fx" aria-hidden="true"></div>
     </footer>
   );
 }
